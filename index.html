@@ -1,0 +1,2758 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>CubeCity - v 0.04 - Joshua Exler</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				font-family: Monospace;
+				font-size: large;
+				background-color: #f0f0f0;
+				margin: 0px;
+				overflow: hidden;
+			}
+
+			#bottomMenu{
+				position: absolute;
+				bottom: 0;
+				height: 60px;
+				background-color: #888888;
+				width: 100%;
+				vertical-align: bottom;
+				padding: 10px;
+			}
+
+			#cubeTallies{
+				position: absolute;
+				bottom: 140;
+				height: 200px;
+				width: 200px;
+				background-color: #888888;
+			}
+
+			#cubeHover {
+    			position: absolute;
+   			 	float: left;
+   			 	background-color: #000000;
+   			 	//border: '1px solid #888888';
+   			 	width: 160px;
+   			 	height: 100px;
+   			 	visibility: hidden;
+   			 	text-align: center;
+   			 	opacity: 0.8;
+			}
+
+			#rotateLeft{
+				height: 40px;
+			}
+
+			#rotateRight{
+				height: 40px;
+			}
+
+			#zoomIn{
+				height: 40px;
+			}
+
+			#zoomOut{
+				height: 40px;
+			}
+
+			#genericCube{
+				height: 40px;
+			}
+			#greenCube{
+				height: 40px;
+			}
+			#blueCube{
+				height: 40px;
+			}
+			#yellowCube{
+				height: 40px;
+			}
+			#orangeCube{
+				height: 40px;
+			}
+			#darkGreenCube{
+				height: 40px;
+			}
+			#brownCube{
+				height: 40px;
+			}
+			#redCube{
+				height: 40px;
+			}
+			#purpleCube{
+				height: 40px;
+			}
+			#youDecide{
+				height: 40px;
+			}
+
+			#marketDecide{
+				height: 40px;
+			}
+
+			#peopleDecide{
+				height: 40px;
+			}
+
+
+		</style>
+	</head>
+	<body>
+<div id='cubeTallies'></div>
+		<div id="bottomMenu">
+		<!--
+			<img id='zoomOut' src='graphics/zoom_out.png' onclick='zoomOutPlease()' onmouseover="cubeHover.style.height='20px';cubeHover.style.visibility='visible'; document.getElementById('cubeHover').innerHTML='Zoom Out'.fontcolor('#FFFFFF');" onmouseout="cubeHover.style.visibility='hidden';cubeHover.style.height='100px';">
+			<img id='zoomIn' src='graphics/zoom_in.png' onclick='zoomInPlease()' onmouseover="cubeHover.style.height='20px';cubeHover.style.visibility='visible'; document.getElementById('cubeHover').innerHTML='Zoom In'.fontcolor('#FFFFFF');" onmouseout="cubeHover.style.visibility='hidden';cubeHover.style.height='100px';">	
+			<img id='rotateLeft' src='graphics/rotate_left.png' onclick='rotateLeftFunction()' onmouseover="cubeHover.style.height='20px';cubeHover.style.visibility='visible'; document.getElementById('cubeHover').innerHTML='Rotate L'.fontcolor('#FFFFFF');" onmouseout="cubeHover.style.visibility='hidden';cubeHover.style.height='100px';">
+			<img id='rotateRight' src='graphics/rotate_right.png' onclick='rotateRightFunction()' onmouseover="cubeHover.style.height='20px';cubeHover.style.visibility='visible'; document.getElementById('cubeHover').innerHTML='Rotate R'.fontcolor('#FFFFFF');" onmouseout="cubeHover.style.visibility='hidden';cubeHover.style.height='100px';">
+			-->
+			<img id='road' src='graphics/roads/fourway.png' onclick='roadClickFunction()' onmouseover="cubeHover.style.height='20px';cubeHover.style.visibility='visible'; document.getElementById('cubeHover').innerHTML='Road'.fontcolor('#FFFFFF');" onmouseout="cubeHover.style.visibility='hidden';cubeHover.style.height='100px';">
+			<img id='genericCube' src='graphics/cube.png' onclick='genRandomCube()' onmouseover="cubeHover.style.height='20px';cubeHover.style.visibility='visible'; document.getElementById('cubeHover').innerHTML='Random Cube'.fontcolor('#FFFFFF');" onmouseout="cubeHover.style.visibility='hidden';cubeHover.style.height='100px';">
+			<img id='redCube' src='graphics/cube_red.png' onclick='redClickFunction();' onmouseover="cubeHover.style.height='20px';cubeHover.style.visibility='visible'; document.getElementById('cubeHover').innerHTML='Non-Profit'.fontcolor('#F62217');" onmouseout="cubeHover.style.visibility='hidden';cubeHover.style.height='100px';">
+			<img id='orangeCube' src='graphics/cube_orange.png' onclick=' orangeClickFunction();' onmouseover="cubeHover.style.height='20px';cubeHover.style.visibility='visible'; document.getElementById('cubeHover').innerHTML='Government'.fontcolor('#FF6600');" onmouseout="cubeHover.style.visibility='hidden';cubeHover.style.height='100px';">
+			<img id='brownCube' src='graphics/cube_brown.png' onclick='brownClickFunction();' onmouseover="cubeHover.style.height='20px';cubeHover.style.visibility='visible'; document.getElementById('cubeHover').innerHTML='Agriculture'.fontcolor('#7e5300');" onmouseout="cubeHover.style.visibility='hidden';cubeHover.style.height='100px';">
+			<img id='yellowCube' src='graphics/cube_yellow.png' onclick='yellowClickFunction();' onmouseover="cubeHover.style.height='20px';cubeHover.style.visibility='visible'; document.getElementById('cubeHover').innerHTML='Industrial'.fontcolor('#ffff00');" onmouseout="cubeHover.style.visibility='hidden';cubeHover.style.height='100px';">
+			<img id='greenCube' src='graphics/cube_green.png' onclick='greenClickFunction();' onmouseover="cubeHover.style.height='20px';cubeHover.style.visibility='visible'; document.getElementById('cubeHover').innerHTML='Residential'.fontcolor('#99CC00');" onmouseout="cubeHover.style.visibility='hidden';cubeHover.style.height='100px';">
+			<img id='darkGreenCube' src='graphics/cube_darkGreen.png' onclick='darkGreenClickFunction();' onmouseover="cubeHover.style.height='20px';cubeHover.style.visibility='visible'; document.getElementById('cubeHover').innerHTML='Park'.fontcolor('#006600');" onmouseout="cubeHover.style.visibility='hidden';cubeHover.style.height='100px';">
+			<img id='blueCube' src='graphics/cube_blue.png' onclick='blueClickFunction();' onmouseover="cubeHover.style.height='20px';cubeHover.style.visibility='visible'; document.getElementById('cubeHover').innerHTML='Commercial'.fontcolor('#0099FF');" onmouseout="cubeHover.style.visibility='hidden';cubeHover.style.height='100px';">
+			<img id='purpleCube' src='graphics/cube_purple.png' onclick='purpleClickFunction();' onmouseover="cubeHover.style.height='20px';cubeHover.style.visibility='visible'; document.getElementById('cubeHover').innerHTML='Science'.fontcolor('#A74AC7');" onmouseout="cubeHover.style.visibility='hidden';cubeHover.style.height='100px';">
+			<input autocomplete="off" style="font-size:12px; text-align:center;width:10%;" id="scaleH" type="text" width="10%" name="globalScaleFactorH" value="1">
+			<button id="applyFactorH" onclick="setScaleH(document.getElementById('scaleH').value);" style="opacity: 1; background-color: white; border: 5px solid rgb(187, 187, 187); border-radius: 5px; font-size: 12px; text-decoration: underline; cursor: pointer; color: rgb(85, 85, 85);"> Apply Horizontal Scale </button>
+			
+			<!--
+			<img id='youDecide' src='graphics/king.png' alt='You Decide (No Auto Growth)'>
+			<img id='marketDecide' src='graphics/capitalist.png' alt='Let the Market Decide'>
+			<img id='peopleDecide' src='graphics/people.png' alt='Let the People Decide'>
+		-->
+			<div id='debugLog'></div>
+			
+	</div>
+	<div id = 'cubeHover'>Test</div>
+	
+
+		<script src="js/three.js"></script>
+
+		<script src="js/renderers/Projector.js"></script>
+		<script src="js/renderers/CanvasRenderer.js"></script>
+
+		<script src="js/libs/stats.min.js"></script>
+		<script src="js/libs/tween.min.js"></script>
+		<script src="threex.domevents-master/threex.domevents.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script>
+			$(document).bind('mousemove', function(e){
+    		$('#cubeHover').css({
+       			left:  e.pageX + 20,
+       			top:   e.pageY
+    			});
+			});
+
+
+			var container, stats;
+			ratio = 800;
+			var aspectRatio = window.innerWidth / window.innerHeight;
+			camera = new THREE.OrthographicCamera( (ratio / - 2)*aspectRatio, (ratio / 2)*aspectRatio, (ratio / 2), (ratio / - 2), -500, 1500 );
+
+			var scene;
+			var renderer = new THREE.CanvasRenderer();
+			renderer.setClearColor( 0x000000);
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				
+			var domEvents   = new THREEx.DomEvents(camera, renderer.domElement);
+			globalScaleFactorH = 1;
+			firstRun = 'true'; // this var is used in the calc'n of x and z vars for the camera rendering function
+			greenSum = 0; //Residential
+			greenModulo = 0;
+			blueSum = 0; //Commercial
+			yellowSum = 0; //Industrial
+			orangeSum = 0; //Government
+			darkGreenSum = 0; //Parks
+			brownSum = 0; //Agricultural
+			redSum = 0; //Non-profit
+			purpleSum = 0;//Science
+
+			globalX = 0;
+			globalZ = 0;
+
+			globalColor = '';
+
+			globalHeightCapMultiplier = 1;
+			init();
+			animate();
+
+			
+			function init() {
+				timer = Date.now() * 0.0001;
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
+				var info = document.createElement( 'div' );
+				info.style.position = 'absolute';
+				info.style.top = '10px';
+				info.style.width = '100%';
+				info.style.textAlign = 'center';
+				//info.innerHTML = '<a href="http://threejs.org" target="_blank">three.js</a> - orthographic view';
+				container.appendChild( info );
+
+				//camera = new THREE.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, - 500, 1000 );
+				camera.position.x = 200;
+				camera.position.y = 200;
+				camera.position.z = 200;
+				container.appendChild( renderer.domElement );
+				scene = new THREE.Scene();
+
+				//inititalization starts for Cube Tallies
+				updateCubeTallies();
+				//initialization ends for Cube Tallies
+
+				// Grid
+
+				var size = 500, step = 25;
+
+				var geometry = new THREE.Geometry();
+				for ( var j = 0; j < 500; j+=500){
+				for ( var i = - size; i <= size; i += step ) {
+
+					geometry.vertices.push( new THREE.Vector3( - size, j, i ) );
+					geometry.vertices.push( new THREE.Vector3(   size, j, i ) );
+
+					geometry.vertices.push( new THREE.Vector3( i, j, - size ) );
+					geometry.vertices.push( new THREE.Vector3( i, j,   size ) );
+
+				}
+			}
+
+				var material = new THREE.LineBasicMaterial( { color: 0xFFFFFF, opacity: 0.2 } );
+ 
+				var line = new THREE.LineSegments( geometry, material );
+				scene.add( line );
+
+				// Cubes
+
+				
+			
+
+				
+
+
+
+				// Lights
+
+				var ambientLight = new THREE.AmbientLight(  0x10 );
+				scene.add( ambientLight );
+
+				var directionalLight = new THREE.DirectionalLight( 0xffffff );
+				directionalLight.position.x = 0.6093498394859318;
+				directionalLight.position.y = 0.3398923564537997;
+				directionalLight.position.z = 0.7163560282029823;
+				
+				directionalLight.position.normalize();
+				//document.getElementById('bottomMenu').innerHTML += (directionalLight.position.x+', '+directionalLight.position.y+', '+directionalLight.position.z);
+				scene.add( directionalLight );
+
+				var directionalLight = new THREE.DirectionalLight( 0xffffff );
+				directionalLight.position.x = -0.6955010106620471;
+				directionalLight.position.y = 0.5707887460662643;
+				directionalLight.position.z = -0.43643848539304225;
+				directionalLight.position.normalize();
+				//document.getElementById('bottomMenu').innerHTML += ('<br>'+directionalLight.position.x+', '+directionalLight.position.y+', '+directionalLight.position.z);
+				scene.add( directionalLight );
+
+				//renderer = new THREE.CanvasRenderer();
+				
+				genRandomCube('Groundwork');
+				for ( var i = 0; i < 1; i ++ ) {
+					genRandomCube();
+
+				}
+
+				stats = new Stats();
+				//container.appendChild( stats.dom );
+
+				//
+
+				window.addEventListener( 'resize', onWindowResize, false );
+
+			}
+
+			
+
+			function onWindowResize() {
+				camera = THREE.OrthographicCamera( (ratio / - 2), (ratio / 2), (ratio / 2), (ratio / - 2), -500, 1500 );
+				camera.left = window.innerWidth / - 2;
+				camera.right = window.innerWidth / 2;
+				camera.top = window.innerHeight / 2;
+				camera.bottom = window.innerHeight / - 2;
+
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+			//
+/*
+			function animate() { //old
+
+
+				requestAnimationFrame( animate );
+
+				stats.begin();
+				render();
+				stats.end();
+
+			}
+*/
+
+			
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~begin
+// initialize object to perform world/screen calculations
+
+	
+	// when the mouse moves, call the given function
+	
+	
+
+
+function animate() //new
+{
+    requestAnimationFrame( animate );
+    TWEEN.update();
+	render();		
+	
+}
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~end
+
+
+			function render() {
+
+				if(firstRun == 'true'){
+				timer = Date.now() * 0.0001;
+
+				camera.position.x = (Math.cos( timer ) * 500);
+				camera.position.z = (Math.sin( timer ) * 500);
+				firstRun = 'false';
+				//camera.position.y = 200;
+				}
+
+				renderer.render( scene, camera );
+				camera.lookAt( scene.position );
+				//document.getElementById('debugLog').innerHTML="timer: "+timer+', x: '+camera.position.x+", z:"+camera.position.z;
+
+			}
+
+			function getRandomCubeColor() {
+				var curRando = getRandomInt(1,9);
+				if(curRando==1) return 0x99CC00; //green
+				else if(curRando==2) return 0x0099FF; //blue
+				else if(curRando==3) return 0xFFFF00; //yellow
+				else if(curRando==4) return 0xFF6600; // orange
+				else if(curRando==5) return 0x006600; // dark green
+				else if(curRando==6) return 0x7e5300; //brown
+				else if(curRando==7) return 0xF62217; //red
+				else if(curRando==8) return 0xA74AC7; //purple
+			}
+
+			function getRandomInt(min, max) {
+  			min = Math.ceil(min);
+  			max = Math.floor(max);
+  			return Math.floor(Math.random() * (max - min)) + min;
+			}
+
+			function setScaleH(inputFactor){
+				globalScaleFactorH = inputFactor;
+			}
+
+			function rotateLeftFunction(){
+				//alert('rotateLeft function called');
+				timer+=.1;
+				renderer.render( scene, camera );
+			}
+
+			function rotateRightFunction(){
+				//alert('rotateLeft function called');
+				timer-=.1;
+				renderer.render( scene, camera );
+			}
+			function zoomInPlease(){ratio=ratio-100;
+				camera.lookAt( scene.position );
+			renderer.render( scene, camera );
+		
+
+			}
+
+			function zoomOutPlease(){ratio=ratio+100;
+				camera.lookAt( scene.position );renderer.render( scene, camera );}
+
+			function roadClickFunction(){
+				globalColor = "roadrash";
+				$('#road').animate({height:'50px'});
+				$('#redCube').animate({height:'40px'});
+
+				$('#orangeCube').animate({height:'40px'},1000);
+				$('#yellowCube').animate({height:'40px'},1000);
+				$('#brownCube').animate({height:'40px'},1000);
+				$('#greenCube').animate({height:'40px'},1000);
+				$('#darkGreenCube').animate({height:'40px'},1000);
+				$('#blueCube').animate({height:'40px'},1000);
+				$('#purpleCube').animate({height:'40px'},1000);
+
+				
+			}
+
+			function redClickFunction(){
+				globalColor = "red";
+				$('#redCube').animate({height:'50px'});
+				$('#road').animate({height:'40px'});
+				$('#orangeCube').animate({height:'40px'},1000);
+				$('#yellowCube').animate({height:'40px'},1000);
+				$('#brownCube').animate({height:'40px'},1000);
+				$('#greenCube').animate({height:'40px'},1000);
+				$('#darkGreenCube').animate({height:'40px'},1000);
+				$('#blueCube').animate({height:'40px'},1000);
+				$('#purpleCube').animate({height:'40px'},1000);
+
+				
+			}
+
+			function orangeClickFunction(){
+				globalColor = "orange";
+				$('#orangeCube').animate({height:'50px'});
+				$('#road').animate({height:'40px'});
+				$('#redCube').animate({height:'40px'},1000);
+				$('#yellowCube').animate({height:'40px'},1000);
+				$('#brownCube').animate({height:'40px'},1000);
+				$('#greenCube').animate({height:'40px'},1000);
+				$('#darkGreenCube').animate({height:'40px'},1000);
+				$('#blueCube').animate({height:'40px'},1000);
+				$('#purpleCube').animate({height:'40px'},1000);
+			}
+
+			function yellowClickFunction(){
+				globalColor = "yellow";
+				$('#yellowCube').animate({height:'50px'});
+				$('#road').animate({height:'40px'});
+				$('#redCube').animate({height:'40px'},1000);
+				$('#orangeCube').animate({height:'40px'},1000);
+				$('#brownCube').animate({height:'40px'},1000);
+				$('#greenCube').animate({height:'40px'},1000);
+				$('#darkGreenCube').animate({height:'40px'},1000);
+				$('#blueCube').animate({height:'40px'},1000);
+				$('#purpleCube').animate({height:'40px'},1000);
+			}
+
+			function brownClickFunction(){
+				globalColor = "brown";
+				$('#brownCube').animate({height:'50px'});
+				$('#road').animate({height:'40px'});
+				$('#redCube').animate({height:'40px'},1000);
+				$('#orangeCube').animate({height:'40px'},1000);
+				$('#yellowCube').animate({height:'40px'},1000);
+				$('#greenCube').animate({height:'40px'},1000);
+				$('#darkGreenCube').animate({height:'40px'},1000);
+				$('#blueCube').animate({height:'40px'},1000);
+				$('#purpleCube').animate({height:'40px'},1000);
+			}
+
+			function greenClickFunction(){
+				globalColor = "green";
+				$('#greenCube').animate({height:'50px'});
+				$('#road').animate({height:'40px'});
+				$('#redCube').animate({height:'40px'},1000);
+				$('#orangeCube').animate({height:'40px'},1000);
+				$('#yellowCube').animate({height:'40px'},1000);
+				$('#brownCube').animate({height:'40px'},1000);
+				$('#darkGreenCube').animate({height:'40px'},1000);
+				$('#blueCube').animate({height:'40px'},1000);
+				$('#purpleCube').animate({height:'40px'},1000);
+			}
+
+			function darkGreenClickFunction(){
+				globalColor = "darkGreen";
+				$('#darkGreenCube').animate({height:'50px'});
+				$('#road').animate({height:'40px'});
+				$('#redCube').animate({height:'40px'},1000);
+				$('#orangeCube').animate({height:'40px'},1000);
+				$('#yellowCube').animate({height:'40px'},1000);
+				$('#brownCube').animate({height:'40px'},1000);
+				$('#greenCube').animate({height:'40px'},1000);
+				$('#blueCube').animate({height:'40px'},1000);
+				$('#purpleCube').animate({height:'40px'},1000);
+			}
+
+			function blueClickFunction(){
+				globalColor = "blue";
+				$('#blueCube').animate({height:'50px'});
+				$('#road').animate({height:'40px'});
+				$('#redCube').animate({height:'40px'},1000);
+				$('#orangeCube').animate({height:'40px'},1000);
+				$('#yellowCube').animate({height:'40px'},1000);
+				$('#brownCube').animate({height:'40px'},1000);
+				$('#greenCube').animate({height:'40px'},1000);
+				$('#darkGreenCube').animate({height:'40px'},1000);
+				$('#purpleCube').animate({height:'40px'},1000);
+			}
+
+			function purpleClickFunction(){
+				globalColor = "purple";
+				$('#purpleCube').animate({height:'50px'});
+				$('#road').animate({height:'40px'});
+				$('#redCube').animate({height:'40px'},1000);
+				$('#orangeCube').animate({height:'40px'},1000);
+				$('#yellowCube').animate({height:'40px'},1000);
+				$('#brownCube').animate({height:'40px'},1000);
+				$('#greenCube').animate({height:'40px'},1000);
+				$('#darkGreenCube').animate({height:'40px'}),1000;
+				$('#blueCube').animate({height:'40px'},1000);
+			}
+			//TWEEN function
+	function scaleUp( cube, yTranslate ) {
+		cube.scale.y = 0.0000000001;
+		
+    TWEEN.removeAll();
+    if(!yTranslate) var curY = .5*Math.floor( Math.random()  * globalHeightCapMultiplier*2 + 1);
+    else{ var curY = yTranslate;}
+    new TWEEN.Tween( cube.scale ).to( { y: curY  }, 2000 )
+    .easing( TWEEN.Easing.Elastic.Out )
+   // .to({y: ( cube.scale.y * 50 ) / 2},1000)
+    .onUpdate( render )
+    .start();   
+	cube.scale.y = curY;
+    new TWEEN.Tween( cube.position ).to( {y: ( cube.scale.y * 50 ) / 2 } , 2000)
+						
+					.easing( TWEEN.Easing.Elastic.Out)
+					.start();
+	
+    
+    //cube.position.y = ( cube.scale.y * 50 ) / 2;
+    globalY = ( cube.scale.y * 50 );
+}
+//NON-STOP animation loop
+
+
+
+			function genRandomCube(optionalInput,optionalX,optionalZ,optionalY,scaleUpYTranslate){
+					optionalInput = optionalInput || "Random Color";
+					
+					var geometry = new THREE.BoxGeometry( 50, 50, 50 );
+					var curCubeColorPound="";
+					var curCubeColor;
+					zoneType = '';
+					if(optionalInput==="Groundwork") {curCubeColor = 0x000000;  curCubeColorPound = "#000000";} //groundwork lattice
+					else if(greenSum+blueSum+yellowSum+orangeSum+darkGreenSum+brownSum+redSum+purpleSum==0) {curCubeColor = 0xFF6600; orangeClickFunction(); globalColor = "orange";}//City Hall
+					else if(optionalInput==="Random Color" ) {curCubeColor = getRandomCubeColor();}
+					else if(optionalInput==="roadrash" ) {curCubeColor = 0x333333; curCubeColorPound = "#333333";globalColor = "roadrash";}
+					else if(optionalInput==="green" ) {curCubeColor = 0x99CC00; curCubeColorPound = "#99CC00";globalColor = "green";}
+					else if(optionalInput==="blue" ) {curCubeColor = 0x0099FF; curCubeColorPound = "#0099FF";globalColor = "blue";}
+					else if(optionalInput==="yellow" ) {curCubeColor = 0xFFFF00;  curCubeColorPound = "#FFFF00";globalColor = "yellow";}
+					else if(optionalInput==="orange" ) {curCubeColor = 0xFF6600; curCubeColorPound = "#FF6600";globalColor = "orange";} // orange 
+					else if(optionalInput==="darkGreen" ) {curCubeColor = 0x006600;  curCubeColorPound = "#006600";globalColor = "darkGreen";} // dark green
+					else if(optionalInput==="brown") {curCubeColor = 0x7e5300;  curCubeColorPound = "#7e5300";globalColor = "brown";}//brown
+					else if(optionalInput==="red") {curCubeColor = 0xF62217;  curCubeColorPound = "#F62217";globalColor = "red";}//red
+					else if(optionalInput==="purple") {curCubeColor = 0xA74AC7;  curCubeColorPound = "#A74AC7";globalColor = "purple";}//purple
+					
+
+					
+					var material = new THREE.MeshLambertMaterial( { color: curCubeColor, overdraw: 1 , opacity: 0.7, reflectivity: 5, emissive: 0x444444, wireframe: false} );
+
+					var cube = new THREE.Mesh( geometry, material );
+					function genSingleGridQuare(xIn,zIn){
+							var material = new THREE.MeshLambertMaterial( { color: curCubeColor, overdraw: 1 , opacity: 0, reflectivity: 5, emissive: 0x444444, wireframe: true} );
+							var gridSquare = new THREE.Mesh( geometry, material );
+							gridSquare.roadInt = 0;
+							gridSquare.scale.x = .5;
+						gridSquare.scale.z = .5;
+						gridSquare.scale.y = 0.00000000000000000001;
+						
+						gridSquare.position.x=xIn;
+						//alert(25*itr+12.5);
+						gridSquare.position.z=zIn;
+						gridSquare.position.y=0;
+						scene.add(gridSquare);
+				
+
+
+					domEvents.addEventListener(gridSquare, 'mousemove', function(event){
+					globalX = gridSquare.position.x;
+					globalZ = gridSquare.position.z;
+
+    				document.getElementById('cubeHover').innerHTML=("("+gridSquare.position.x+", "+gridSquare.position.z+")<br>"+gridSquare.roadInt).fontcolor("#FFFFFF");
+    				cubeHover.style.visibility='visible';
+    				gridSquare.material = new THREE.MeshLambertMaterial( { color: curCubeColor, overdraw: 1 , opacity: 0.7, reflectivity: 5, emissive: 0x888888, wireframe: true} );
+					}, true);
+
+					domEvents.addEventListener(gridSquare, 'mouseout', function(event){
+    				document.getElementById('cubeHover').innerHTML="";
+    				cubeHover.style.visibility='hidden';
+    				gridSquare.material = new THREE.MeshLambertMaterial( { color: curCubeColor, overdraw: 1 , opacity: 0, reflectivity: 5, emissive: 0x444444, wireframe: true} );
+					}, true);
+
+					domEvents.addEventListener(gridSquare, 'click', function(event){
+					genRandomCube(globalColor,globalX,globalZ);
+					}, true);
+
+					}
+
+					if(optionalInput=='Groundwork'){
+						for(var quadrantItr=0;quadrantItr<4;quadrantItr++){
+						for(var outerItr=0;outerItr<20;outerItr++){
+						for(var itr=0;itr<20;itr++){
+							var signOfCurX = 0;
+							var signOfCurZ = 0;
+							if(quadrantItr==0){signOfCurX=1; signOfCurZ=1;}
+							else if (quadrantItr==1){signOfCurX=1; signOfCurZ=-1;}
+							else if (quadrantItr==2){signOfCurX=-1; signOfCurZ=1;}
+							else if (quadrantItr==3){signOfCurX=-1; signOfCurZ=-1;}
+							else {alert("Error generating base grid.");}
+							genSingleGridQuare(25*signOfCurX*outerItr+signOfCurX*12.5,25*signOfCurZ*itr+signOfCurZ*12.5);
+							}}}}
+					//cube.scale.y = Math.floor( Math.random() * 5 + 1 );
+					
+					
+					else{
+					cube.scale.x = globalScaleFactorH * 0.5 * Math.floor( Math.random() * 2 + 1 );
+					cube.scale.z = globalScaleFactorH * 0.5 * Math.floor( Math.random() * 2 + 1 );
+					
+					if(curCubeColor ==  26112 || curCubeColor == 8278784 || curCubeColor == 3355443){cube.scale.y=0.01; cube.cap=0;
+					if(curCubeColor == 3355443){cube.scale.x = 0.5; cube.scale.z = 0.5;}}
+					else{
+						if(scaleUpYTranslate) scaleUp(cube,scaleUpYTranslate);
+						else scaleUp(cube);
+						//cube.position.y = ( cube.scale.y * 50 ) / 2;
+						//cube.cap = globalY ;
+						
+					}
+					
+					
+
+					
+					//alert(curCubeColor+': '+(cube.scale.x*cube.scale.y*cube.scale.z));
+					if(greenSum+blueSum+yellowSum+orangeSum+darkGreenSum+brownSum+redSum+purpleSum==0){cube.position.x=0; cube.position.y = ( cube.scale.y * 50 ) / 2;cube.position.z=0; cube.cubeName = "City Hall";} //City Hall
+					else{
+						if(!optionalX){cube.position.x = Math.max(-400,(Math.min(400,Math.floor( ( Math.random() * 1000 - 500 ) / 50 ) * 50 + 25)));}
+						else{cube.position.x=optionalX;}
+						//cube.position.y = ( cube.scale.y * 50 ) / 2;
+						if(!optionalZ){cube.position.z = Math.max(-400,(Math.min(400,Math.floor( ( Math.random() * 1000 - 500 ) / 50 ) * 50 + 25)));}
+						else{cube.position.z=optionalZ;}
+						if(!optionalY){cube.position.y = ( cube.scale.y * 50 ) / 2;}
+						else{
+							//cube.position.y = ( cube.scale.y * 50 ) / 2;
+							geometry.applyMatrix( new THREE.Matrix4().makeTranslation(0, optionalY, 0) );
+
+						}
+					}
+					//document.getElementById('debugLog').innerHTML=("<b>cube start coordinates:</b> x start: "+cube.position.x+", z start: "+cube.position.z+"<br>");
+					
+					
+
+					scene.add( cube );
+					
+				
+					cube.zIndex=999999999;
+				
+					
+
+					
+					
+
+					
+					
+					if(curCubeColor==10079232) { // RESIDENTIAL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+						cube.totalOutput = Math.ceil(8*(cube.scale.x*cube.scale.y*cube.scale.z));
+						greenSum +=  Math.ceil(8*(cube.scale.x*cube.scale.y*cube.scale.z)); 
+						greenModulo += Math.ceil( 8*(cube.scale.x*cube.scale.y*cube.scale.z)); 
+						if(greenModulo>100){
+							globalHeightCapMultiplier++;
+							greenModulo=0;
+							document.getElementById('debugLog').innerHTML = "Height Cap Raised to "+globalHeightCapMultiplier;}
+						cube.zoneType = "Residential"; 
+						cube.zoneSuffix = " Residents";
+						curCubeColorPound = "#99CC00";
+						cube.cubeName = genGreenName();
+						cube.subtype = getSubtype('Green');}
+					else if(curCubeColor==39423) { // COMMERCIAL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+						cube.totalOutput = Math.ceil(8*(cube.scale.x*cube.scale.y*cube.scale.z));
+						blueSum += Math.ceil(8*(cube.scale.x*cube.scale.y*cube.scale.z)); 
+						cube.zoneType = "Commercial"; 
+						cube.zoneSuffix = " Jobs";
+						curCubeColorPound = "#0099FF";
+						cube.cubeName = genBlueName();
+						cube.subtype = getSubtype('Blue');}
+					else if(curCubeColor==16776960) { // INDUSTRIAL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+						cube.totalOutput = Math.ceil(6*(cube.scale.x*cube.scale.y*cube.scale.z));
+						yellowSum += Math.ceil(6*(cube.scale.x*cube.scale.y*cube.scale.z)); 
+						cube.zoneType = "Industrial"; 
+						cube.zoneSuffix = " Jobs";
+						curCubeColorPound = "#FFFF00";
+						cube.cubeName = genYellowName();
+						cube.subtype = getSubtype('Yellow');}
+					else if(curCubeColor==16737792) { // GOVT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+						cube.totalOutput = Math.ceil(12*(cube.scale.x*cube.scale.y*cube.scale.z));
+						orangeSum += Math.ceil(12*(cube.scale.x*cube.scale.y*cube.scale.z)); 
+						cube.zoneType = "Government"; 
+						cube.zoneSuffix = " Jobs";
+						curCubeColorPound = "#FF6600";
+						if(cube.cubeName=="City Hall"){cube.subtype=('City Hall');}
+						else{cube.cubeName = genOrangeName();
+						cube.subtype = getSubtype('Orange');}}
+					else if(curCubeColor==26112) { // PARK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+						cube.totalOutput = Math.ceil(2*(cube.scale.x*1*cube.scale.z));
+						darkGreenSum += Math.ceil(2*(cube.scale.x*1*cube.scale.z)); 
+						cube.zoneType = "Park"; 
+						cube.zoneSuffix = " Acres";
+						curCubeColorPound = "#006600";
+						cube.cubeName = genDarkGreenName();
+						cube.subtype = getSubtype('Dark Green');}
+					else if(curCubeColor==8278784) { // AGRICULTURE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+						cube.totalOutput = Math.ceil(2*(cube.scale.x*1*cube.scale.z));
+						brownSum += Math.ceil(2*(cube.scale.x*1*cube.scale.z)); 
+						cube.zoneType = "Agricultural"; 
+						cube.zoneSuffix = " Jobs";
+						curCubeColorPound = "#7e5300";
+						cube.cubeName = genBrownName();
+						cube.subtype = getSubtype('Brown');}
+					else if(curCubeColor==16130583) { // NONPROFIT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+						cube.totalOutput = Math.ceil(8*(cube.scale.x*cube.scale.y*cube.scale.z));
+						redSum +=  Math.ceil(8*(cube.scale.x*cube.scale.y*cube.scale.z)); 
+						cube.zoneType = "Non-Profit"; 
+						cube.zoneSuffix = " Jobs";
+						curCubeColorPound = "#F62217";
+						cube.cubeName = genRedName();
+						cube.subtype = getSubtype('Red');}
+					else if(curCubeColor==10963655) { // SCIENCE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+						cube.totalOutput = Math.ceil(8*(cube.scale.x*cube.scale.y*cube.scale.z));
+						purpleSum +=  Math.ceil(8*(cube.scale.x*cube.scale.y*cube.scale.z)); 
+						cube.zoneType = "Science"; 
+						cube.zoneSuffix = " Jobs";
+						curCubeColorPound = "#A74AC7";
+						cube.cubeName = genPurpleName();
+						cube.subtype = getSubtype('Purple');}
+					else if(curCubeColor==3355443) { // ROAD!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+						cube.totalOutput = Math.ceil(0*(cube.scale.x*cube.scale.y*cube.scale.z));
+						cube.zoneType = "Road"; 
+						cube.zoneSuffix = " Meters";
+						curCubeColorPound = "#333333";
+						cube.cubeName = genRoadName();
+						cube.subtype = getSubtype('Road');}
+					else {alert("Error: Unexpected Cube Color of "+curCubeColor);}
+					updateCubeTallies();
+					//
+				//end else loop clause for groundwork vs non-groundwork
+
+					domEvents.addEventListener(cube, 'mousemove', function(event){
+					var box = new THREE.Box3().setFromObject( cube );
+
+    				document.getElementById('cubeHover').innerHTML=(cube.zoneType+"<br><b>"+cube.subtype+"<br><i>"+cube.cubeName+"</i><br>"+cube.totalOutput+cube.zoneSuffix/*+"<br>("+cube.position.x+", "+cube.position.y+", "+cube.position.z+", y scale: "+cube.scale.y+", min y: "+box.min.y+", max y: "+box.max.y+")"*/).fontcolor(curCubeColorPound);
+    				cubeHover.style.visibility='visible';
+    				cube.material = new THREE.MeshLambertMaterial( { color: curCubeColor, overdraw: 1 , opacity: 0.7, reflectivity: 5, emissive: 0x888888, wireframe: false} );
+					}, true);
+
+					domEvents.addEventListener(cube, 'mouseout', function(event){
+					
+    				document.getElementById('cubeHover').innerHTML="";
+    				cubeHover.style.visibility='hidden';
+    				cube.material = new THREE.MeshLambertMaterial( { color: curCubeColor, overdraw: 1 , opacity: 0.7, reflectivity: 5, emissive: 0x444444, wireframe: false} );
+					}, true);
+					
+					
+					domEvents.addEventListener(cube, 'click', function(event){
+					var box = new THREE.Box3().setFromObject( cube );
+					globalCurY = box.max.y;
+					genRandomCube(globalColor,cube.position.x,cube.position.z, box.max.y, true);
+
+					}, true);
+
+			}
+			}
+
+			function updateCubeTallies(){document.getElementById('cubeTallies').innerHTML="<br>"+
+				(greenSum.toString()+" Citizens<br>").fontcolor("#99CC00")+
+				(blueSum.toString()+" C Jobs<br>").fontcolor("blue")+
+				((yellowSum.toString()+" I Jobs<br>").fontcolor("yellow"))+
+				((orangeSum.toString()+" Public Jobs<br>").fontcolor("orange"))+
+				((darkGreenSum.toString()+" Park Acres<br>").fontcolor("#006600"))+
+				((brownSum.toString()+" Ag. Jobs<br>").fontcolor("#7e5300"))+
+				((redSum.toString()+" Non-Profit Jobs<br>").fontcolor("#F62217"))+
+				((purpleSum.toString()+" Science Jobs").fontcolor("#A74AC7"));
+			}
+
+			function getSubtype(inputOne){ //input one is used for cube color, i.e., zone type
+				var subtypeInt = getRandomInt(1,10);
+				if(inputOne==='Red'){
+					if(subtypeInt==1) return "Charity";
+					else if(subtypeInt==2) return "Visual Arts";
+					else if(subtypeInt==3) return "Music";
+					else if(subtypeInt==4) return "Theatre";
+					else if(subtypeInt==5) return "Private Education";
+					else if(subtypeInt==6) return "Public/Private Parnership";
+					else if(subtypeInt==7) return "Avant-Garde";
+					else if(subtypeInt==8) return "Communal Space";
+					else if(subtypeInt==9) return "Museum";
+					else if(subtypeInt==10) return "Religion";
+
+				}
+				else if(inputOne==='Orange'){
+					if(subtypeInt==0) return "City Hall";
+					else if(subtypeInt==1) return "Administration";
+					else if(subtypeInt==2) return "Public Education";
+					else if(subtypeInt==3) return "Health";
+					else if(subtypeInt==4) return "Social Services";
+					else if(subtypeInt==5) return "Law Enforcement";
+					else if(subtypeInt==6) return "Bureaucracy";
+					else if(subtypeInt==7) return "Diplomacy/Statecraft";
+					else if(subtypeInt==8) return "Data/Archives";
+					else if(subtypeInt==9) return "Transportation";
+					else if(subtypeInt==10) return "Planning";
+
+				}
+				else if(inputOne==='Yellow'){
+					subtypeInt = getRandomInt(1,12);
+					if(subtypeInt==1) return "Manufacturing";
+					else if(subtypeInt==2) return "Toxic Waste";
+					else if(subtypeInt==3) return "Coal";
+					else if(subtypeInt==4) return "Oil";
+					else if(subtypeInt==5) return "Natural Gas";
+					else if(subtypeInt==6) return "Solar Power";
+					else if(subtypeInt==7) return "Wind Power";
+					else if(subtypeInt==8) return "Hydroelectric Power";
+					else if(subtypeInt==9) return "Nuclear Power";
+					else if(subtypeInt==10) return "Precious Metal Mining";
+					else if(subtypeInt==11) return "Rare Earth Mining";
+					else if(subtypeInt==12) return "Plastics";
+
+
+
+
+				}
+				else if(inputOne==='Brown'){
+					subtypeInt = getRandomInt(1,7);
+					if(subtypeInt==1) return "Private Crop Field";
+					else if(subtypeInt==2) return "Public Crop Field";
+					else if(subtypeInt==3) return "Greenhouse";
+					else if(subtypeInt==4) return "Vertical Farm";
+					else if(subtypeInt==5) return "Animal Husbandry";
+					else if(subtypeInt==6) return "Vertical Animal Husbandry";
+					else if(subtypeInt==7) return "Irrigation";
+										
+
+				}
+				else if(inputOne==='Green'){
+					subtypeInt = getRandomInt(1,9);
+					if(subtypeInt==1) return "Single Family Housing";
+					else if(subtypeInt==2) return "Rowhouse";
+					else if(subtypeInt==3) return "Apartment";
+					else if(subtypeInt==4) return "Condominium";
+					else if(subtypeInt==5) return "Co-operative Housing";
+					else if(subtypeInt==6) return "Public Housing";
+					else if(subtypeInt==7) return "Slum";
+					else if(subtypeInt==8) return "Gated Community";
+					else if(subtypeInt==9) return "Shelter";
+					
+				}
+				else if(inputOne==='Dark Green'){
+					subtypeInt = getRandomInt(1,6);
+					if(subtypeInt==1) return "Public Park";
+					else if(subtypeInt==2) return "Nature Preserve";
+					else if(subtypeInt==3) return "Flower Garden";
+					else if(subtypeInt==4) return "Plaza";
+					else if(subtypeInt==5) return "Water";
+					else if(subtypeInt==6) return "Vertical Park";
+
+				}
+				else if(inputOne==='Blue'){
+					subtypeInt = getRandomInt(1,11);
+					if(subtypeInt==1) return "Retail";
+					else if(subtypeInt==2) return "Services";
+					else if(subtypeInt==3) return "Office";
+					else if(subtypeInt==4) return "Restaurant";
+					else if(subtypeInt==5) return "Bar/Club";
+					else if(subtypeInt==6) return "Bank";
+					else if(subtypeInt==7) return "Specialist";
+					else if(subtypeInt==8) return "Big Box";
+					else if(subtypeInt==9) return "Medicine";
+					else if(subtypeInt==10) return "Shadow";
+					else if(subtypeInt==11) return "Hotel";
+
+
+				}
+				else if(inputOne==='Purple'){
+					if(subtypeInt==1) return "Biology";
+					else if(subtypeInt==2) return "Chemistry";
+					else if(subtypeInt==3) return "Physics";
+					else if(subtypeInt==4) return "Astronomy";
+					else if(subtypeInt==5) return "Robotics";
+					else if(subtypeInt==6) return "Genetics";
+					else if(subtypeInt==7) return "Nanotechnology";
+					else if(subtypeInt==8) return "Singularity";
+					else if(subtypeInt==9) return "Mathematics";
+					else if(subtypeInt==10) return "Zoology";
+
+				}
+				else if(inputOne==='Road'){
+					if(subtypeInt==1) return "Road";
+					else if(subtypeInt==2) return "Street";
+					else if(subtypeInt==3) return "Alley";
+					else if(subtypeInt==4) return "Lane";
+					else if(subtypeInt==5) return "Bicycle Path";
+					else if(subtypeInt==6) return "Avenue";
+					else if(subtypeInt==7) return "Sidewalk";
+					else if(subtypeInt==8) return "Service Vehicle Lane";
+					else if(subtypeInt==9) return "Highway";
+					else if(subtypeInt==10) return "Pedestrian Path";
+				}
+				else {alert('Error generating cube subtype. Input one is ' + inputOne);}
+
+			}
+
+			function genGreenName(){
+				var nom = getRandomInt(1,62);
+				if(nom==1){nom="Joshua";}
+				else if(nom==2){nom="Isobel";}
+				else if(nom==3){nom="Barkley";}
+				else if(nom==4){nom="Soggy";}
+				else if(nom==5){nom="Zachary";}
+				else if(nom==6){nom="Cristopher";}
+				else if(nom==7){nom="Alexander";}
+				else if(nom==8){nom="Mawakka";}
+				else if(nom==9){nom="Jenny";}
+				else if(nom==10){nom="Michael";}
+				else if(nom==11){nom="Glen";}
+				else if(nom==12){nom="Hillary";}
+				else if(nom==13){nom="Herman";}
+				else if(nom==14){nom="Samuel";}
+				else if(nom==15){nom="Bethany";}
+				else if(nom==16){nom="Amanda";}
+				else if(nom==17){nom="Lauren";}
+				else if(nom==18){nom="Allie";}
+				else if(nom==19){nom="Nicholas";}
+				else if(nom==20){nom="Bernie";}
+				else if(nom==21){nom="Phillip";}
+				else if(nom==22){nom="Mario";}
+				else if(nom==23){nom="Luigi";}
+				else if(nom==24){nom="Peach";}
+				else if(nom==25){nom="Manitoba";}
+				else if(nom==26){nom="Yukon";}
+				else if(nom==27){nom="Alberta";}
+				else if(nom==28){nom="Saskatchewan";}
+				else if(nom==29){nom="Lenny";}
+				else if(nom==30){nom="Jamal";}
+				else if(nom==31){nom="Gabby";}
+				else if(nom==32){nom="Hector";}
+				else if(nom==33){nom="Tina";}
+				else if(nom==34){nom="Julian";}
+				else if(nom==35){nom="Anthony";}
+				else if(nom==36){nom="Pamela";}
+				else if(nom==37){nom="Yasmin";}
+				else if(nom==38){nom="Phoebe";}
+				else if(nom==39){nom="Ralph";}
+				else if(nom==40){nom="Kurt";}
+				else if(nom==41){nom="Anne";}
+				else if(nom==42){nom="Steve";}
+				else if(nom==43){nom="Randee";}
+				else if(nom==44){nom="Sandy";}
+				else if(nom==45){nom="Molly";}
+				else if(nom==46){nom="Samantha";}
+				else if(nom==47){nom="Nils";}
+				else if(nom==48){nom="Koda";}
+				else if(nom==49){nom="Olaf";}
+				else if(nom==50){nom="Monica";}
+				else if(nom==51){nom="Chandler";}
+				else if(nom==52){nom="Ross";}
+				else if(nom==53){nom="Joey";}
+				else if(nom==54){nom="Rachel";}
+				else if(nom==55){nom="Kolby";}
+				else if(nom==56){nom="William";}
+				else if(nom==57){nom="Miles";}
+				else if(nom==58){nom="Jean-Luc";}
+				else if(nom==59){nom="Geordi";}
+				else if(nom==60){nom="Patrick";}
+				else if(nom==61){nom="Gates";}
+				else {return "Generic Manor";}
+
+				var surnom = getRandomInt(1,1055);
+				if(surnom==1){surnom="Picard";}
+				else if(surnom==2){surnom="Riker";}
+				else if(surnom==3){surnom="La Forge";}
+				else if(surnom==4){surnom="Stewart";}
+				else if(surnom==5){surnom="Burton";}
+				else if(surnom==6){surnom="Frakes";}
+				else if(surnom==7){surnom="Alexander";}
+				else if(surnom==8){surnom="McFadden";}
+				else if(surnom==9){surnom="Wheaton";}
+				else if(surnom==10){surnom="Spiner";}
+				else if(surnom==11){surnom="Nelson";}
+				else if(surnom==12){surnom="Meany";}
+				else if(surnom==13){surnom="Livingston";}
+				else if(surnom==14){surnom="Ditmas";}
+				else if(surnom==15){surnom="Washington";}
+				else if(surnom==16){surnom="Adams";}
+				else if(surnom==17){surnom="Madison";}
+				else if(surnom==18){surnom="Jefferson";}
+				else if(surnom==19){surnom="Monroe";}
+				else if(surnom==20){surnom="Quincy";}
+				else if(surnom==21){surnom="van Buren";}
+				else if(surnom==22){surnom="Jackson";}
+				else if(surnom==23){surnom="Tyler";}
+				else if(surnom==24){surnom="Polk";}
+				else if(surnom==25){surnom="Fillmore";}
+				else if(surnom==26){surnom="Pierce";}
+				else if(surnom==27){surnom="Harrison";}
+				else if(surnom==28){surnom="Lincoln";}
+				else if(surnom==29){surnom="Johnson";}
+				else if(surnom==30){surnom="Grant";}
+				else if(surnom==31){surnom="Hayes";}
+				else if(surnom==32){surnom="Cleveland";}
+				else if(surnom==33){surnom="Garfield";}
+				else if(surnom==34){surnom="McKinley";}
+				else if(surnom==35){surnom="Taylor";}
+				else if(surnom==36){surnom="Buchanan";}
+				else if(surnom==37){surnom="Arthur";}
+				else if(surnom==38){surnom="Roosevelt";}
+				else if(surnom==39){surnom="Taft";}
+				else if(surnom==40){surnom="Wilson";}
+				else if(surnom==41){surnom="Harding";}
+				else if(surnom==42){surnom="Coolidge";}
+				else if(surnom==43){surnom="Hoover";}
+				else if(surnom==44){surnom="Roosevelt";}
+				else if(surnom==45){surnom="Truman";}
+				else if(surnom==46){surnom="Eisenhower";}
+				else if(surnom==47){surnom="Kennedy";}
+				else if(surnom==48){surnom="Nixon";}
+				else if(surnom==49){surnom="Ford";}
+				else if(surnom==50){surnom="Carter";}
+				else if(surnom==51){surnom="Reagan";}
+				else if(surnom==52){surnom="Bush";}
+				else if(surnom==53){surnom="Clinton";}
+				else if(surnom==54){surnom="Obama";}
+					else if(surnom==55){surnom = "Smith";}
+else if(surnom==56){surnom = 'Johnson';}
+else if(surnom==57){surnom = 'Williams';}
+else if(surnom==58){surnom = 'Brown';}
+else if(surnom==59){surnom = 'Jones';}
+else if(surnom==60){surnom = 'Miller';}
+else if(surnom==61){surnom = 'Davis';}
+else if(surnom==62){surnom = 'Garcia';}
+else if(surnom==63){surnom = 'Rodriguez';}
+else if(surnom==64){surnom = 'Wilson';}
+else if(surnom==65){surnom = 'Martinez';}
+else if(surnom==66){surnom = 'Anderson';}
+else if(surnom==67){surnom = 'Taylor';}
+else if(surnom==68){surnom = 'Thomas';}
+else if(surnom==69){surnom = 'Hernandez';}
+else if(surnom==70){surnom = 'Moore';}
+else if(surnom==71){surnom = 'Martin';}
+else if(surnom==72){surnom = 'Jackson';}
+else if(surnom==73){surnom = 'Thompson';}
+else if(surnom==74){surnom = 'White';}
+else if(surnom==75){surnom = 'Lopez';}
+else if(surnom==76){surnom = 'Lee';}
+else if(surnom==77){surnom = 'Gonzalez';}
+else if(surnom==78){surnom = 'Harris';}
+else if(surnom==79){surnom = 'Clark';}
+else if(surnom==80){surnom = 'Lewis';}
+else if(surnom==81){surnom = 'Robinson';}
+else if(surnom==82){surnom = 'Walker';}
+else if(surnom==83){surnom = 'Perez';}
+else if(surnom==84){surnom = 'Hall';}
+else if(surnom==85){surnom = 'Young';}
+else if(surnom==86){surnom = 'Allen';}
+else if(surnom==87){surnom = 'Sanchez';}
+else if(surnom==88){surnom = 'Wright';}
+else if(surnom==89){surnom = 'King';}
+else if(surnom==90){surnom = 'Scott';}
+else if(surnom==91){surnom = 'Green';}
+else if(surnom==92){surnom = 'Baker';}
+else if(surnom==93){surnom = 'Adams';}
+else if(surnom==94){surnom = 'Nelson';}
+else if(surnom==95){surnom = 'Hill';}
+else if(surnom==96){surnom = 'Ramirez';}
+else if(surnom==97){surnom = 'Campbell';}
+else if(surnom==98){surnom = 'Mitchell';}
+else if(surnom==99){surnom = 'Roberts';}
+else if(surnom==100){surnom = 'Carter';}
+else if(surnom==101){surnom = 'Phillips';}
+else if(surnom==102){surnom = 'Evans';}
+else if(surnom==103){surnom = 'Turner';}
+else if(surnom==104){surnom = 'Torres';}
+else if(surnom==105){surnom = 'Parker';}
+else if(surnom==106){surnom = 'Collins';}
+else if(surnom==107){surnom = 'Edwards';}
+else if(surnom==108){surnom = 'Stewart';}
+else if(surnom==109){surnom = 'Flores';}
+else if(surnom==110){surnom = 'Morris';}
+else if(surnom==111){surnom = 'Nguyen';}
+else if(surnom==112){surnom = 'Murphy';}
+else if(surnom==113){surnom = 'Rivera';}
+else if(surnom==114){surnom = 'Cook';}
+else if(surnom==115){surnom = 'Rogers';}
+else if(surnom==116){surnom = 'Morgan';}
+else if(surnom==117){surnom = 'Peterson';}
+else if(surnom==118){surnom = 'Cooper';}
+else if(surnom==119){surnom = 'Reed';}
+else if(surnom==120){surnom = 'Bailey';}
+else if(surnom==121){surnom = 'Bell';}
+else if(surnom==122){surnom = 'Gomez';}
+else if(surnom==123){surnom = 'Kelly';}
+else if(surnom==124){surnom = 'Howard';}
+else if(surnom==125){surnom = 'Ward';}
+else if(surnom==126){surnom = 'Cox';}
+else if(surnom==127){surnom = 'Diaz';}
+else if(surnom==128){surnom = 'Richardson';}
+else if(surnom==129){surnom = 'Wood';}
+else if(surnom==130){surnom = 'Watson';}
+else if(surnom==131){surnom = 'Brooks';}
+else if(surnom==132){surnom = 'Bennett';}
+else if(surnom==133){surnom = 'Gray';}
+else if(surnom==134){surnom = 'James';}
+else if(surnom==135){surnom = 'Reyes';}
+else if(surnom==136){surnom = 'Cruz';}
+else if(surnom==137){surnom = 'Hughes';}
+else if(surnom==138){surnom = 'Price';}
+else if(surnom==139){surnom = 'Myers';}
+else if(surnom==140){surnom = 'Long';}
+else if(surnom==141){surnom = 'Foster';}
+else if(surnom==142){surnom = 'Sanders';}
+else if(surnom==143){surnom = 'Ross';}
+else if(surnom==144){surnom = 'Morales';}
+else if(surnom==145){surnom = 'Powell';}
+else if(surnom==146){surnom = 'Sullivan';}
+else if(surnom==147){surnom = 'Russell';}
+else if(surnom==148){surnom = 'Ortiz';}
+else if(surnom==149){surnom = 'Jenkins';}
+else if(surnom==150){surnom = 'Gutierrez';}
+else if(surnom==151){surnom = 'Perry';}
+else if(surnom==152){surnom = 'Butler';}
+else if(surnom==153){surnom = 'Barnes';}
+else if(surnom==154){surnom = 'Fisher';}
+else if(surnom==155){surnom = 'Henderson';}
+else if(surnom==156){surnom = 'Coleman';}
+else if(surnom==157){surnom = 'Simmons';}
+else if(surnom==158){surnom = 'Patterson';}
+else if(surnom==159){surnom = 'Jordan';}
+else if(surnom==160){surnom = 'Reynolds';}
+else if(surnom==161){surnom = 'Hamilton';}
+else if(surnom==162){surnom = 'Graham';}
+else if(surnom==163){surnom = 'Kim';}
+else if(surnom==164){surnom = 'Gonzales';}
+else if(surnom==165){surnom = 'Alexander';}
+else if(surnom==166){surnom = 'Ramos';}
+else if(surnom==167){surnom = 'Wallace';}
+else if(surnom==168){surnom = 'Griffin';}
+else if(surnom==169){surnom = 'West';}
+else if(surnom==170){surnom = 'Cole';}
+else if(surnom==171){surnom = 'Hayes';}
+else if(surnom==172){surnom = 'Chavez';}
+else if(surnom==173){surnom = 'Gibson';}
+else if(surnom==174){surnom = 'Bryant';}
+else if(surnom==175){surnom = 'Ellis';}
+else if(surnom==176){surnom = 'Stevens';}
+else if(surnom==177){surnom = 'Murray';}
+else if(surnom==178){surnom = 'Ford';}
+else if(surnom==179){surnom = 'Marshall';}
+else if(surnom==180){surnom = 'Owens';}
+else if(surnom==181){surnom = 'Mcdonald';}
+else if(surnom==182){surnom = 'Harrison';}
+else if(surnom==183){surnom = 'Ruiz';}
+else if(surnom==184){surnom = 'Kennedy';}
+else if(surnom==185){surnom = 'Wells';}
+else if(surnom==186){surnom = 'Alvarez';}
+else if(surnom==187){surnom = 'Woods';}
+else if(surnom==188){surnom = 'Mendoza';}
+else if(surnom==189){surnom = 'Castillo';}
+else if(surnom==190){surnom = 'Olson';}
+else if(surnom==191){surnom = 'Webb';}
+else if(surnom==192){surnom = 'Washington';}
+else if(surnom==193){surnom = 'Tucker';}
+else if(surnom==194){surnom = 'Freeman';}
+else if(surnom==195){surnom = 'Burns';}
+else if(surnom==196){surnom = 'Henry';}
+else if(surnom==197){surnom = 'Vasquez';}
+else if(surnom==198){surnom = 'Snyder';}
+else if(surnom==199){surnom = 'Simpson';}
+else if(surnom==200){surnom = 'Crawford';}
+else if(surnom==201){surnom = 'Jimenez';}
+else if(surnom==202){surnom = 'Porter';}
+else if(surnom==203){surnom = 'Mason';}
+else if(surnom==204){surnom = 'Shaw';}
+else if(surnom==205){surnom = 'Gordon';}
+else if(surnom==206){surnom = 'Wagner';}
+else if(surnom==207){surnom = 'Hunter';}
+else if(surnom==208){surnom = 'Romero';}
+else if(surnom==209){surnom = 'Hicks';}
+else if(surnom==210){surnom = 'Dixon';}
+else if(surnom==211){surnom = 'Hunt';}
+else if(surnom==212){surnom = 'Palmer';}
+else if(surnom==213){surnom = 'Robertson';}
+else if(surnom==214){surnom = 'Black';}
+else if(surnom==215){surnom = 'Holmes';}
+else if(surnom==216){surnom = 'Stone';}
+else if(surnom==217){surnom = 'Meyer';}
+else if(surnom==218){surnom = 'Boyd';}
+else if(surnom==219){surnom = 'Mills';}
+else if(surnom==220){surnom = 'Warren';}
+else if(surnom==221){surnom = 'Fox';}
+else if(surnom==222){surnom = 'Rose';}
+else if(surnom==223){surnom = 'Rice';}
+else if(surnom==224){surnom = 'Moreno';}
+else if(surnom==225){surnom = 'Schmidt';}
+else if(surnom==226){surnom = 'Patel';}
+else if(surnom==227){surnom = 'Ferguson';}
+else if(surnom==228){surnom = 'Nichols';}
+else if(surnom==229){surnom = 'Herrera';}
+else if(surnom==230){surnom = 'Medina';}
+else if(surnom==231){surnom = 'Ryan';}
+else if(surnom==232){surnom = 'Fernandez';}
+else if(surnom==233){surnom = 'Weaver';}
+else if(surnom==234){surnom = 'Daniels';}
+else if(surnom==235){surnom = 'Stephens';}
+else if(surnom==236){surnom = 'Gardner';}
+else if(surnom==237){surnom = 'Payne';}
+else if(surnom==238){surnom = 'Kelley';}
+else if(surnom==239){surnom = 'Dunn';}
+else if(surnom==240){surnom = 'Pierce';}
+else if(surnom==241){surnom = 'Arnold';}
+else if(surnom==242){surnom = 'Tran';}
+else if(surnom==243){surnom = 'Spencer';}
+else if(surnom==244){surnom = 'Peters';}
+else if(surnom==245){surnom = 'Hawkins';}
+else if(surnom==246){surnom = 'Grant';}
+else if(surnom==247){surnom = 'Hansen';}
+else if(surnom==248){surnom = 'Castro';}
+else if(surnom==249){surnom = 'Hoffman';}
+else if(surnom==250){surnom = 'Hart';}
+else if(surnom==251){surnom = 'Elliott';}
+else if(surnom==252){surnom = 'Cunningham';}
+else if(surnom==253){surnom = 'Knight';}
+else if(surnom==254){surnom = 'Bradley';}
+else if(surnom==255){surnom = 'Carroll';}
+else if(surnom==256){surnom = 'Hudson';}
+else if(surnom==257){surnom = 'Duncan';}
+else if(surnom==258){surnom = 'Armstrong';}
+else if(surnom==259){surnom = 'Berry';}
+else if(surnom==260){surnom = 'Andrews';}
+else if(surnom==261){surnom = 'Johnston';}
+else if(surnom==262){surnom = 'Ray';}
+else if(surnom==263){surnom = 'Lane';}
+else if(surnom==264){surnom = 'Riley';}
+else if(surnom==265){surnom = 'Carpenter';}
+else if(surnom==266){surnom = 'Perkins';}
+else if(surnom==267){surnom = 'Aguilar';}
+else if(surnom==268){surnom = 'Silva';}
+else if(surnom==269){surnom = 'Richards';}
+else if(surnom==270){surnom = 'Willis';}
+else if(surnom==271){surnom = 'Matthews';}
+else if(surnom==272){surnom = 'Chapman';}
+else if(surnom==273){surnom = 'Lawrence';}
+else if(surnom==274){surnom = 'Garza';}
+else if(surnom==275){surnom = 'Vargas';}
+else if(surnom==276){surnom = 'Watkins';}
+else if(surnom==277){surnom = 'Wheeler';}
+else if(surnom==278){surnom = 'Larson';}
+else if(surnom==279){surnom = 'Carlson';}
+else if(surnom==280){surnom = 'Harper';}
+else if(surnom==281){surnom = 'George';}
+else if(surnom==282){surnom = 'Greene';}
+else if(surnom==283){surnom = 'Burke';}
+else if(surnom==284){surnom = 'Guzman';}
+else if(surnom==285){surnom = 'Morrison';}
+else if(surnom==286){surnom = 'Munoz';}
+else if(surnom==287){surnom = 'Jacobs';}
+else if(surnom==288){surnom = 'Obrien';}
+else if(surnom==289){surnom = 'Lawson';}
+else if(surnom==290){surnom = 'Franklin';}
+else if(surnom==291){surnom = 'Lynch';}
+else if(surnom==292){surnom = 'Bishop';}
+else if(surnom==293){surnom = 'Carr';}
+else if(surnom==294){surnom = 'Salazar';}
+else if(surnom==295){surnom = 'Austin';}
+else if(surnom==296){surnom = 'Mendez';}
+else if(surnom==297){surnom = 'Gilbert';}
+else if(surnom==298){surnom = 'Jensen';}
+else if(surnom==299){surnom = 'Williamson';}
+else if(surnom==300){surnom = 'Montgomery';}
+else if(surnom==301){surnom = 'Harvey';}
+else if(surnom==302){surnom = 'Oliver';}
+else if(surnom==303){surnom = 'Howell';}
+else if(surnom==304){surnom = 'Dean';}
+else if(surnom==305){surnom = 'Hanson';}
+else if(surnom==306){surnom = 'Weber';}
+else if(surnom==307){surnom = 'Garrett';}
+else if(surnom==308){surnom = 'Sims';}
+else if(surnom==309){surnom = 'Burton';}
+else if(surnom==310){surnom = 'Fuller';}
+else if(surnom==311){surnom = 'Soto';}
+else if(surnom==312){surnom = 'Mccoy';}
+else if(surnom==313){surnom = 'Welch';}
+else if(surnom==314){surnom = 'Chen';}
+else if(surnom==315){surnom = 'Schultz';}
+else if(surnom==316){surnom = 'Walters';}
+else if(surnom==317){surnom = 'Reid';}
+else if(surnom==318){surnom = 'Fields';}
+else if(surnom==319){surnom = 'Walsh';}
+else if(surnom==320){surnom = 'Little';}
+else if(surnom==321){surnom = 'Fowler';}
+else if(surnom==322){surnom = 'Bowman';}
+else if(surnom==323){surnom = 'Davidson';}
+else if(surnom==324){surnom = 'May';}
+else if(surnom==325){surnom = 'Day';}
+else if(surnom==326){surnom = 'Schneider';}
+else if(surnom==327){surnom = 'Newman';}
+else if(surnom==328){surnom = 'Brewer';}
+else if(surnom==329){surnom = 'Lucas';}
+else if(surnom==330){surnom = 'Holland';}
+else if(surnom==331){surnom = 'Wong';}
+else if(surnom==332){surnom = 'Banks';}
+else if(surnom==333){surnom = 'Santos';}
+else if(surnom==334){surnom = 'Curtis';}
+else if(surnom==335){surnom = 'Pearson';}
+else if(surnom==336){surnom = 'Delgado';}
+else if(surnom==337){surnom = 'Valdez';}
+else if(surnom==338){surnom = 'Pena';}
+else if(surnom==339){surnom = 'Rios';}
+else if(surnom==340){surnom = 'Douglas';}
+else if(surnom==341){surnom = 'Sandoval';}
+else if(surnom==342){surnom = 'Barrett';}
+else if(surnom==343){surnom = 'Hopkins';}
+else if(surnom==344){surnom = 'Keller';}
+else if(surnom==345){surnom = 'Guerrero';}
+else if(surnom==346){surnom = 'Stanley';}
+else if(surnom==347){surnom = 'Bates';}
+else if(surnom==348){surnom = 'Alvarado';}
+else if(surnom==349){surnom = 'Beck';}
+else if(surnom==350){surnom = 'Ortega';}
+else if(surnom==351){surnom = 'Wade';}
+else if(surnom==352){surnom = 'Estrada';}
+else if(surnom==353){surnom = 'Contreras';}
+else if(surnom==354){surnom = 'Barnett';}
+else if(surnom==355){surnom = 'Caldwell';}
+else if(surnom==356){surnom = 'Santiago';}
+else if(surnom==357){surnom = 'Lambert';}
+else if(surnom==358){surnom = 'Powers';}
+else if(surnom==359){surnom = 'Chambers';}
+else if(surnom==360){surnom = 'Nunez';}
+else if(surnom==361){surnom = 'Craig';}
+else if(surnom==362){surnom = 'Leonard';}
+else if(surnom==363){surnom = 'Lowe';}
+else if(surnom==364){surnom = 'Rhodes';}
+else if(surnom==365){surnom = 'Byrd';}
+else if(surnom==366){surnom = 'Gregory';}
+else if(surnom==367){surnom = 'Shelton';}
+else if(surnom==368){surnom = 'Frazier';}
+else if(surnom==369){surnom = 'Becker';}
+else if(surnom==370){surnom = 'Maldonado';}
+else if(surnom==371){surnom = 'Fleming';}
+else if(surnom==372){surnom = 'Vega';}
+else if(surnom==373){surnom = 'Sutton';}
+else if(surnom==374){surnom = 'Cohen';}
+else if(surnom==375){surnom = 'Jennings';}
+else if(surnom==376){surnom = 'Parks';}
+else if(surnom==377){surnom = 'Mcdaniel';}
+else if(surnom==378){surnom = 'Watts';}
+else if(surnom==379){surnom = 'Barker';}
+else if(surnom==380){surnom = 'Norris';}
+else if(surnom==381){surnom = 'Vaughn';}
+else if(surnom==382){surnom = 'Vazquez';}
+else if(surnom==383){surnom = 'Holt';}
+else if(surnom==384){surnom = 'Schwartz';}
+else if(surnom==385){surnom = 'Steele';}
+else if(surnom==386){surnom = 'Benson';}
+else if(surnom==387){surnom = 'Neal';}
+else if(surnom==388){surnom = 'Dominguez';}
+else if(surnom==389){surnom = 'Horton';}
+else if(surnom==390){surnom = 'Terry';}
+else if(surnom==391){surnom = 'Wolfe';}
+else if(surnom==392){surnom = 'Hale';}
+else if(surnom==393){surnom = 'Lyons';}
+else if(surnom==394){surnom = 'Graves';}
+else if(surnom==395){surnom = 'Haynes';}
+else if(surnom==396){surnom = 'Miles';}
+else if(surnom==397){surnom = 'Park';}
+else if(surnom==398){surnom = 'Warner';}
+else if(surnom==399){surnom = 'Padilla';}
+else if(surnom==400){surnom = 'Bush';}
+else if(surnom==401){surnom = 'Thornton';}
+else if(surnom==402){surnom = 'Mccarthy';}
+else if(surnom==403){surnom = 'Mann';}
+else if(surnom==404){surnom = 'Zimmerman';}
+else if(surnom==405){surnom = 'Erickson';}
+else if(surnom==406){surnom = 'Fletcher';}
+else if(surnom==407){surnom = 'Mckinney';}
+else if(surnom==408){surnom = 'Page';}
+else if(surnom==409){surnom = 'Dawson';}
+else if(surnom==410){surnom = 'Joseph';}
+else if(surnom==411){surnom = 'Marquez';}
+else if(surnom==412){surnom = 'Reeves';}
+else if(surnom==413){surnom = 'Klein';}
+else if(surnom==414){surnom = 'Espinoza';}
+else if(surnom==415){surnom = 'Baldwin';}
+else if(surnom==416){surnom = 'Moran';}
+else if(surnom==417){surnom = 'Love';}
+else if(surnom==418){surnom = 'Robbins';}
+else if(surnom==419){surnom = 'Higgins';}
+else if(surnom==420){surnom = 'Ball';}
+else if(surnom==421){surnom = 'Cortez';}
+else if(surnom==422){surnom = 'Le';}
+else if(surnom==423){surnom = 'Griffith';}
+else if(surnom==424){surnom = 'Bowen';}
+else if(surnom==425){surnom = 'Sharp';}
+else if(surnom==426){surnom = 'Cummings';}
+else if(surnom==427){surnom = 'Ramsey';}
+else if(surnom==428){surnom = 'Hardy';}
+else if(surnom==429){surnom = 'Swanson';}
+else if(surnom==430){surnom = 'Barber';}
+else if(surnom==431){surnom = 'Acosta';}
+else if(surnom==432){surnom = 'Luna';}
+else if(surnom==433){surnom = 'Chandler';}
+else if(surnom==434){surnom = 'Blair';}
+else if(surnom==435){surnom = 'Daniel';}
+else if(surnom==436){surnom = 'Cross';}
+else if(surnom==437){surnom = 'Simon';}
+else if(surnom==438){surnom = 'Dennis';}
+else if(surnom==439){surnom = 'Oconnor';}
+else if(surnom==440){surnom = 'Quinn';}
+else if(surnom==441){surnom = 'Gross';}
+else if(surnom==442){surnom = 'Navarro';}
+else if(surnom==443){surnom = 'Moss';}
+else if(surnom==444){surnom = 'Fitzgerald';}
+else if(surnom==445){surnom = 'Doyle';}
+else if(surnom==446){surnom = 'Mclaughlin';}
+else if(surnom==447){surnom = 'Rojas';}
+else if(surnom==448){surnom = 'Rodgers';}
+else if(surnom==449){surnom = 'Stevenson';}
+else if(surnom==450){surnom = 'Singh';}
+else if(surnom==451){surnom = 'Yang';}
+else if(surnom==452){surnom = 'Figueroa';}
+else if(surnom==453){surnom = 'Harmon';}
+else if(surnom==454){surnom = 'Newton';}
+else if(surnom==455){surnom = 'Paul';}
+else if(surnom==456){surnom = 'Manning';}
+else if(surnom==457){surnom = 'Garner';}
+else if(surnom==458){surnom = 'Mcgee';}
+else if(surnom==459){surnom = 'Reese';}
+else if(surnom==460){surnom = 'Francis';}
+else if(surnom==461){surnom = 'Burgess';}
+else if(surnom==462){surnom = 'Adkins';}
+else if(surnom==463){surnom = 'Goodman';}
+else if(surnom==464){surnom = 'Curry';}
+else if(surnom==465){surnom = 'Brady';}
+else if(surnom==466){surnom = 'Christensen';}
+else if(surnom==467){surnom = 'Potter';}
+else if(surnom==468){surnom = 'Walton';}
+else if(surnom==469){surnom = 'Goodwin';}
+else if(surnom==470){surnom = 'Mullins';}
+else if(surnom==471){surnom = 'Molina';}
+else if(surnom==472){surnom = 'Webster';}
+else if(surnom==473){surnom = 'Fischer';}
+else if(surnom==474){surnom = 'Campos';}
+else if(surnom==475){surnom = 'Avila';}
+else if(surnom==476){surnom = 'Sherman';}
+else if(surnom==477){surnom = 'Todd';}
+else if(surnom==478){surnom = 'Chang';}
+else if(surnom==479){surnom = 'Blake';}
+else if(surnom==480){surnom = 'Malone';}
+else if(surnom==481){surnom = 'Wolf';}
+else if(surnom==482){surnom = 'Hodges';}
+else if(surnom==483){surnom = 'Juarez';}
+else if(surnom==484){surnom = 'Gill';}
+else if(surnom==485){surnom = 'Farmer';}
+else if(surnom==486){surnom = 'Hines';}
+else if(surnom==487){surnom = 'Gallagher';}
+else if(surnom==488){surnom = 'Duran';}
+else if(surnom==489){surnom = 'Hubbard';}
+else if(surnom==490){surnom = 'Cannon';}
+else if(surnom==491){surnom = 'Miranda';}
+else if(surnom==492){surnom = 'Wang';}
+else if(surnom==493){surnom = 'Saunders';}
+else if(surnom==494){surnom = 'Tate';}
+else if(surnom==495){surnom = 'Mack';}
+else if(surnom==496){surnom = 'Hammond';}
+else if(surnom==497){surnom = 'Carrillo';}
+else if(surnom==498){surnom = 'Townsend';}
+else if(surnom==499){surnom = 'Wise';}
+else if(surnom==500){surnom = 'Ingram';}
+else if(surnom==501){surnom = 'Barton';}
+else if(surnom==502){surnom = 'Mejia';}
+else if(surnom==503){surnom = 'Ayala';}
+else if(surnom==504){surnom = 'Schroeder';}
+else if(surnom==505){surnom = 'Hampton';}
+else if(surnom==506){surnom = 'Rowe';}
+else if(surnom==507){surnom = 'Parsons';}
+else if(surnom==508){surnom = 'Frank';}
+else if(surnom==509){surnom = 'Waters';}
+else if(surnom==510){surnom = 'Strickland';}
+else if(surnom==511){surnom = 'Osborne';}
+else if(surnom==512){surnom = 'Maxwell';}
+else if(surnom==513){surnom = 'Chan';}
+else if(surnom==514){surnom = 'Deleon';}
+else if(surnom==515){surnom = 'Norman';}
+else if(surnom==516){surnom = 'Harrington';}
+else if(surnom==517){surnom = 'Casey';}
+else if(surnom==518){surnom = 'Patton';}
+else if(surnom==519){surnom = 'Logan';}
+else if(surnom==520){surnom = 'Bowers';}
+else if(surnom==521){surnom = 'Mueller';}
+else if(surnom==522){surnom = 'Glover';}
+else if(surnom==523){surnom = 'Floyd';}
+else if(surnom==524){surnom = 'Hartman';}
+else if(surnom==525){surnom = 'Buchanan';}
+else if(surnom==526){surnom = 'Cobb';}
+else if(surnom==527){surnom = 'French';}
+else if(surnom==528){surnom = 'Kramer';}
+else if(surnom==529){surnom = 'Mccormick';}
+else if(surnom==530){surnom = 'Clarke';}
+else if(surnom==531){surnom = 'Tyler';}
+else if(surnom==532){surnom = 'Gibbs';}
+else if(surnom==533){surnom = 'Moody';}
+else if(surnom==534){surnom = 'Conner';}
+else if(surnom==535){surnom = 'Sparks';}
+else if(surnom==536){surnom = 'Mcguire';}
+else if(surnom==537){surnom = 'Leon';}
+else if(surnom==538){surnom = 'Bauer';}
+else if(surnom==539){surnom = 'Norton';}
+else if(surnom==540){surnom = 'Pope';}
+else if(surnom==541){surnom = 'Flynn';}
+else if(surnom==542){surnom = 'Hogan';}
+else if(surnom==543){surnom = 'Robles';}
+else if(surnom==544){surnom = 'Salinas';}
+else if(surnom==545){surnom = 'Yates';}
+else if(surnom==546){surnom = 'Lindsey';}
+else if(surnom==547){surnom = 'Lloyd';}
+else if(surnom==548){surnom = 'Marsh';}
+else if(surnom==549){surnom = 'Mcbride';}
+else if(surnom==550){surnom = 'Owen';}
+else if(surnom==551){surnom = 'Solis';}
+else if(surnom==552){surnom = 'Pham';}
+else if(surnom==553){surnom = 'Lang';}
+else if(surnom==554){surnom = 'Pratt';}
+else if(surnom==555){surnom = 'Lara';}
+else if(surnom==556){surnom = 'Brock';}
+else if(surnom==557){surnom = 'Ballard';}
+else if(surnom==558){surnom = 'Trujillo';}
+else if(surnom==559){surnom = 'Shaffer';}
+else if(surnom==560){surnom = 'Drake';}
+else if(surnom==561){surnom = 'Roman';}
+else if(surnom==562){surnom = 'Aguirre';}
+else if(surnom==563){surnom = 'Morton';}
+else if(surnom==564){surnom = 'Stokes';}
+else if(surnom==565){surnom = 'Lamb';}
+else if(surnom==566){surnom = 'Pacheco';}
+else if(surnom==567){surnom = 'Patrick';}
+else if(surnom==568){surnom = 'Cochran';}
+else if(surnom==569){surnom = 'Shepherd';}
+else if(surnom==570){surnom = 'Cain';}
+else if(surnom==571){surnom = 'Burnett';}
+else if(surnom==572){surnom = 'Hess';}
+else if(surnom==573){surnom = 'Li';}
+else if(surnom==574){surnom = 'Cervantes';}
+else if(surnom==575){surnom = 'Olsen';}
+else if(surnom==576){surnom = 'Briggs';}
+else if(surnom==577){surnom = 'Ochoa';}
+else if(surnom==578){surnom = 'Cabrera';}
+else if(surnom==579){surnom = 'Velasquez';}
+else if(surnom==580){surnom = 'Montoya';}
+else if(surnom==581){surnom = 'Roth';}
+else if(surnom==582){surnom = 'Meyers';}
+else if(surnom==583){surnom = 'Cardenas';}
+else if(surnom==584){surnom = 'Fuentes';}
+else if(surnom==585){surnom = 'Weiss';}
+else if(surnom==586){surnom = 'Hoover';}
+else if(surnom==587){surnom = 'Wilkins';}
+else if(surnom==588){surnom = 'Nicholson';}
+else if(surnom==589){surnom = 'Underwood';}
+else if(surnom==590){surnom = 'Short';}
+else if(surnom==591){surnom = 'Carson';}
+else if(surnom==592){surnom = 'Morrow';}
+else if(surnom==593){surnom = 'Colon';}
+else if(surnom==594){surnom = 'Holloway';}
+else if(surnom==595){surnom = 'Summers';}
+else if(surnom==596){surnom = 'Bryan';}
+else if(surnom==597){surnom = 'Petersen';}
+else if(surnom==598){surnom = 'Mckenzie';}
+else if(surnom==599){surnom = 'Serrano';}
+else if(surnom==600){surnom = 'Wilcox';}
+else if(surnom==601){surnom = 'Carey';}
+else if(surnom==602){surnom = 'Clayton';}
+else if(surnom==603){surnom = 'Poole';}
+else if(surnom==604){surnom = 'Calderon';}
+else if(surnom==605){surnom = 'Gallegos';}
+else if(surnom==606){surnom = 'Greer';}
+else if(surnom==607){surnom = 'Rivas';}
+else if(surnom==608){surnom = 'Guerra';}
+else if(surnom==609){surnom = 'Decker';}
+else if(surnom==610){surnom = 'Collier';}
+else if(surnom==611){surnom = 'Wall';}
+else if(surnom==612){surnom = 'Whitaker';}
+else if(surnom==613){surnom = 'Bass';}
+else if(surnom==614){surnom = 'Flowers';}
+else if(surnom==615){surnom = 'Davenport';}
+else if(surnom==616){surnom = 'Conley';}
+else if(surnom==617){surnom = 'Houston';}
+else if(surnom==618){surnom = 'Huff';}
+else if(surnom==619){surnom = 'Copeland';}
+else if(surnom==620){surnom = 'Hood';}
+else if(surnom==621){surnom = 'Monroe';}
+else if(surnom==622){surnom = 'Massey';}
+else if(surnom==623){surnom = 'Roberson';}
+else if(surnom==624){surnom = 'Combs';}
+else if(surnom==625){surnom = 'Franco';}
+else if(surnom==626){surnom = 'Larsen';}
+else if(surnom==627){surnom = 'Pittman';}
+else if(surnom==628){surnom = 'Randall';}
+else if(surnom==629){surnom = 'Skinner';}
+else if(surnom==630){surnom = 'Wilkinson';}
+else if(surnom==631){surnom = 'Kirby';}
+else if(surnom==632){surnom = 'Cameron';}
+else if(surnom==633){surnom = 'Bridges';}
+else if(surnom==634){surnom = 'Anthony';}
+else if(surnom==635){surnom = 'Richard';}
+else if(surnom==636){surnom = 'Kirk';}
+else if(surnom==637){surnom = 'Bruce';}
+else if(surnom==638){surnom = 'Singleton';}
+else if(surnom==639){surnom = 'Mathis';}
+else if(surnom==640){surnom = 'Bradford';}
+else if(surnom==641){surnom = 'Boone';}
+else if(surnom==642){surnom = 'Abbott';}
+else if(surnom==643){surnom = 'Charles';}
+else if(surnom==644){surnom = 'Allison';}
+else if(surnom==645){surnom = 'Sweeney';}
+else if(surnom==646){surnom = 'Atkinson';}
+else if(surnom==647){surnom = 'Horn';}
+else if(surnom==648){surnom = 'Jefferson';}
+else if(surnom==649){surnom = 'Rosales';}
+else if(surnom==650){surnom = 'York';}
+else if(surnom==651){surnom = 'Christian';}
+else if(surnom==652){surnom = 'Phelps';}
+else if(surnom==653){surnom = 'Farrell';}
+else if(surnom==654){surnom = 'Castaneda';}
+else if(surnom==655){surnom = 'Nash';}
+else if(surnom==656){surnom = 'Dickerson';}
+else if(surnom==657){surnom = 'Bond';}
+else if(surnom==658){surnom = 'Wyatt';}
+else if(surnom==659){surnom = 'Foley';}
+else if(surnom==660){surnom = 'Chase';}
+else if(surnom==661){surnom = 'Gates';}
+else if(surnom==662){surnom = 'Vincent';}
+else if(surnom==663){surnom = 'Mathews';}
+else if(surnom==664){surnom = 'Hodge';}
+else if(surnom==665){surnom = 'Garrison';}
+else if(surnom==666){surnom = 'Trevino';}
+else if(surnom==667){surnom = 'Villarreal';}
+else if(surnom==668){surnom = 'Heath';}
+else if(surnom==669){surnom = 'Dalton';}
+else if(surnom==670){surnom = 'Valencia';}
+else if(surnom==671){surnom = 'Callahan';}
+else if(surnom==672){surnom = 'Hensley';}
+else if(surnom==673){surnom = 'Atkins';}
+else if(surnom==674){surnom = 'Huffman';}
+else if(surnom==675){surnom = 'Roy';}
+else if(surnom==676){surnom = 'Boyer';}
+else if(surnom==677){surnom = 'Shields';}
+else if(surnom==678){surnom = 'Lin';}
+else if(surnom==679){surnom = 'Hancock';}
+else if(surnom==680){surnom = 'Grimes';}
+else if(surnom==681){surnom = 'Glenn';}
+else if(surnom==682){surnom = 'Cline';}
+else if(surnom==683){surnom = 'Delacruz';}
+else if(surnom==684){surnom = 'Camacho';}
+else if(surnom==685){surnom = 'Dillon';}
+else if(surnom==686){surnom = 'Parrish';}
+else if(surnom==687){surnom = 'Oneill';}
+else if(surnom==688){surnom = 'Melton';}
+else if(surnom==689){surnom = 'Booth';}
+else if(surnom==690){surnom = 'Kane';}
+else if(surnom==691){surnom = 'Berg';}
+else if(surnom==692){surnom = 'Harrell';}
+else if(surnom==693){surnom = 'Pitts';}
+else if(surnom==694){surnom = 'Savage';}
+else if(surnom==695){surnom = 'Wiggins';}
+else if(surnom==696){surnom = 'Brennan';}
+else if(surnom==697){surnom = 'Salas';}
+else if(surnom==698){surnom = 'Marks';}
+else if(surnom==699){surnom = 'Russo';}
+else if(surnom==700){surnom = 'Sawyer';}
+else if(surnom==701){surnom = 'Baxter';}
+else if(surnom==702){surnom = 'Golden';}
+else if(surnom==703){surnom = 'Hutchinson';}
+else if(surnom==704){surnom = 'Liu';}
+else if(surnom==705){surnom = 'Walter';}
+else if(surnom==706){surnom = 'Mcdowell';}
+else if(surnom==707){surnom = 'Wiley';}
+else if(surnom==708){surnom = 'Rich';}
+else if(surnom==709){surnom = 'Humphrey';}
+else if(surnom==710){surnom = 'Johns';}
+else if(surnom==711){surnom = 'Koch';}
+else if(surnom==712){surnom = 'Suarez';}
+else if(surnom==713){surnom = 'Hobbs';}
+else if(surnom==714){surnom = 'Beard';}
+else if(surnom==715){surnom = 'Gilmore';}
+else if(surnom==716){surnom = 'Ibarra';}
+else if(surnom==717){surnom = 'Keith';}
+else if(surnom==718){surnom = 'Macias';}
+else if(surnom==719){surnom = 'Khan';}
+else if(surnom==720){surnom = 'Andrade';}
+else if(surnom==721){surnom = 'Ware';}
+else if(surnom==722){surnom = 'Stephenson';}
+else if(surnom==723){surnom = 'Henson';}
+else if(surnom==724){surnom = 'Wilkerson';}
+else if(surnom==725){surnom = 'Dyer';}
+else if(surnom==726){surnom = 'Mcclure';}
+else if(surnom==727){surnom = 'Blackwell';}
+else if(surnom==728){surnom = 'Mercado';}
+else if(surnom==729){surnom = 'Tanner';}
+else if(surnom==730){surnom = 'Eaton';}
+else if(surnom==731){surnom = 'Clay';}
+else if(surnom==732){surnom = 'Barron';}
+else if(surnom==733){surnom = 'Beasley';}
+else if(surnom==734){surnom = 'Oneal';}
+else if(surnom==735){surnom = 'Preston';}
+else if(surnom==736){surnom = 'Small';}
+else if(surnom==737){surnom = 'Wu';}
+else if(surnom==738){surnom = 'Zamora';}
+else if(surnom==739){surnom = 'Macdonald';}
+else if(surnom==740){surnom = 'Vance';}
+else if(surnom==741){surnom = 'Snow';}
+else if(surnom==742){surnom = 'Mcclain';}
+else if(surnom==743){surnom = 'Stafford';}
+else if(surnom==744){surnom = 'Orozco';}
+else if(surnom==745){surnom = 'Barry';}
+else if(surnom==746){surnom = 'English';}
+else if(surnom==747){surnom = 'Shannon';}
+else if(surnom==748){surnom = 'Kline';}
+else if(surnom==749){surnom = 'Jacobson';}
+else if(surnom==750){surnom = 'Woodard';}
+else if(surnom==751){surnom = 'Huang';}
+else if(surnom==752){surnom = 'Kemp';}
+else if(surnom==753){surnom = 'Mosley';}
+else if(surnom==754){surnom = 'Prince';}
+else if(surnom==755){surnom = 'Merritt';}
+else if(surnom==756){surnom = 'Hurst';}
+else if(surnom==757){surnom = 'Villanueva';}
+else if(surnom==758){surnom = 'Roach';}
+else if(surnom==759){surnom = 'Nolan';}
+else if(surnom==760){surnom = 'Lam';}
+else if(surnom==761){surnom = 'Yoder';}
+else if(surnom==762){surnom = 'Mccullough';}
+else if(surnom==763){surnom = 'Lester';}
+else if(surnom==764){surnom = 'Santana';}
+else if(surnom==765){surnom = 'Valenzuela';}
+else if(surnom==766){surnom = 'Winters';}
+else if(surnom==767){surnom = 'Barrera';}
+else if(surnom==768){surnom = 'Leach';}
+else if(surnom==769){surnom = 'Orr';}
+else if(surnom==770){surnom = 'Berger';}
+else if(surnom==771){surnom = 'Mckee';}
+else if(surnom==772){surnom = 'Strong';}
+else if(surnom==773){surnom = 'Conway';}
+else if(surnom==774){surnom = 'Stein';}
+else if(surnom==775){surnom = 'Whitehead';}
+else if(surnom==776){surnom = 'Bullock';}
+else if(surnom==777){surnom = 'Escobar';}
+else if(surnom==778){surnom = 'Knox';}
+else if(surnom==779){surnom = 'Meadows';}
+else if(surnom==780){surnom = 'Solomon';}
+else if(surnom==781){surnom = 'Velez';}
+else if(surnom==782){surnom = 'Odonnell';}
+else if(surnom==783){surnom = 'Kerr';}
+else if(surnom==784){surnom = 'Stout';}
+else if(surnom==785){surnom = 'Blankenship';}
+else if(surnom==786){surnom = 'Browning';}
+else if(surnom==787){surnom = 'Kent';}
+else if(surnom==788){surnom = 'Lozano';}
+else if(surnom==789){surnom = 'Bartlett';}
+else if(surnom==790){surnom = 'Pruitt';}
+else if(surnom==791){surnom = 'Buck';}
+else if(surnom==792){surnom = 'Barr';}
+else if(surnom==793){surnom = 'Gaines';}
+else if(surnom==794){surnom = 'Durham';}
+else if(surnom==795){surnom = 'Gentry';}
+else if(surnom==796){surnom = 'Mcintyre';}
+else if(surnom==797){surnom = 'Sloan';}
+else if(surnom==798){surnom = 'Melendez';}
+else if(surnom==799){surnom = 'Rocha';}
+else if(surnom==800){surnom = 'Herman';}
+else if(surnom==801){surnom = 'Sexton';}
+else if(surnom==802){surnom = 'Moon';}
+else if(surnom==803){surnom = 'Hendricks';}
+else if(surnom==804){surnom = 'Rangel';}
+else if(surnom==805){surnom = 'Stark';}
+else if(surnom==806){surnom = 'Lowery';}
+else if(surnom==807){surnom = 'Hardin';}
+else if(surnom==808){surnom = 'Hull';}
+else if(surnom==809){surnom = 'Sellers';}
+else if(surnom==810){surnom = 'Ellison';}
+else if(surnom==811){surnom = 'Calhoun';}
+else if(surnom==812){surnom = 'Gillespie';}
+else if(surnom==813){surnom = 'Mora';}
+else if(surnom==814){surnom = 'Knapp';}
+else if(surnom==815){surnom = 'Mccall';}
+else if(surnom==816){surnom = 'Morse';}
+else if(surnom==817){surnom = 'Dorsey';}
+else if(surnom==818){surnom = 'Weeks';}
+else if(surnom==819){surnom = 'Nielsen';}
+else if(surnom==820){surnom = 'Livingston';}
+else if(surnom==821){surnom = 'Leblanc';}
+else if(surnom==822){surnom = 'Mclean';}
+else if(surnom==823){surnom = 'Bradshaw';}
+else if(surnom==824){surnom = 'Glass';}
+else if(surnom==825){surnom = 'Middleton';}
+else if(surnom==826){surnom = 'Buckley';}
+else if(surnom==827){surnom = 'Schaefer';}
+else if(surnom==828){surnom = 'Frost';}
+else if(surnom==829){surnom = 'Howe';}
+else if(surnom==830){surnom = 'House';}
+else if(surnom==831){surnom = 'Mcintosh';}
+else if(surnom==832){surnom = 'Ho';}
+else if(surnom==833){surnom = 'Pennington';}
+else if(surnom==834){surnom = 'Reilly';}
+else if(surnom==835){surnom = 'Hebert';}
+else if(surnom==836){surnom = 'Mcfarland';}
+else if(surnom==837){surnom = 'Hickman';}
+else if(surnom==838){surnom = 'Noble';}
+else if(surnom==839){surnom = 'Spears';}
+else if(surnom==840){surnom = 'Conrad';}
+else if(surnom==841){surnom = 'Arias';}
+else if(surnom==842){surnom = 'Galvan';}
+else if(surnom==843){surnom = 'Velazquez';}
+else if(surnom==844){surnom = 'Huynh';}
+else if(surnom==845){surnom = 'Frederick';}
+else if(surnom==846){surnom = 'Randolph';}
+else if(surnom==847){surnom = 'Cantu';}
+else if(surnom==848){surnom = 'Fitzpatrick';}
+else if(surnom==849){surnom = 'Mahoney';}
+else if(surnom==850){surnom = 'Peck';}
+else if(surnom==851){surnom = 'Villa';}
+else if(surnom==852){surnom = 'Michael';}
+else if(surnom==853){surnom = 'Donovan';}
+else if(surnom==854){surnom = 'Mcconnell';}
+else if(surnom==855){surnom = 'Walls';}
+else if(surnom==856){surnom = 'Boyle';}
+else if(surnom==857){surnom = 'Mayer';}
+else if(surnom==858){surnom = 'Zuniga';}
+else if(surnom==859){surnom = 'Giles';}
+else if(surnom==860){surnom = 'Pineda';}
+else if(surnom==861){surnom = 'Pace';}
+else if(surnom==862){surnom = 'Hurley';}
+else if(surnom==863){surnom = 'Mays';}
+else if(surnom==864){surnom = 'Mcmillan';}
+else if(surnom==865){surnom = 'Crosby';}
+else if(surnom==866){surnom = 'Ayers';}
+else if(surnom==867){surnom = 'Case';}
+else if(surnom==868){surnom = 'Bentley';}
+else if(surnom==869){surnom = 'Shepard';}
+else if(surnom==870){surnom = 'Everett';}
+else if(surnom==871){surnom = 'Pugh';}
+else if(surnom==872){surnom = 'David';}
+else if(surnom==873){surnom = 'Mcmahon';}
+else if(surnom==874){surnom = 'Dunlap';}
+else if(surnom==875){surnom = 'Bender';}
+else if(surnom==876){surnom = 'Hahn';}
+else if(surnom==877){surnom = 'Harding';}
+else if(surnom==878){surnom = 'Acevedo';}
+else if(surnom==879){surnom = 'Raymond';}
+else if(surnom==880){surnom = 'Blackburn';}
+else if(surnom==881){surnom = 'Duffy';}
+else if(surnom==882){surnom = 'Landry';}
+else if(surnom==883){surnom = 'Dougherty';}
+else if(surnom==884){surnom = 'Bautista';}
+else if(surnom==885){surnom = 'Shah';}
+else if(surnom==886){surnom = 'Potts';}
+else if(surnom==887){surnom = 'Arroyo';}
+else if(surnom==888){surnom = 'Valentine';}
+else if(surnom==889){surnom = 'Meza';}
+else if(surnom==890){surnom = 'Gould';}
+else if(surnom==891){surnom = 'Vaughan';}
+else if(surnom==892){surnom = 'Fry';}
+else if(surnom==893){surnom = 'Rush';}
+else if(surnom==894){surnom = 'Avery';}
+else if(surnom==895){surnom = 'Herring';}
+else if(surnom==896){surnom = 'Dodson';}
+else if(surnom==897){surnom = 'Clements';}
+else if(surnom==898){surnom = 'Sampson';}
+else if(surnom==899){surnom = 'Tapia';}
+else if(surnom==900){surnom = 'Bean';}
+else if(surnom==901){surnom = 'Lynn';}
+else if(surnom==902){surnom = 'Crane';}
+else if(surnom==903){surnom = 'Farley';}
+else if(surnom==904){surnom = 'Cisneros';}
+else if(surnom==905){surnom = 'Benton';}
+else if(surnom==906){surnom = 'Ashley';}
+else if(surnom==907){surnom = 'Mckay';}
+else if(surnom==908){surnom = 'Finley';}
+else if(surnom==909){surnom = 'Best';}
+else if(surnom==910){surnom = 'Blevins';}
+else if(surnom==911){surnom = 'Friedman';}
+else if(surnom==912){surnom = 'Moses';}
+else if(surnom==913){surnom = 'Sosa';}
+else if(surnom==914){surnom = 'Blanchard';}
+else if(surnom==915){surnom = 'Huber';}
+else if(surnom==916){surnom = 'Frye';}
+else if(surnom==917){surnom = 'Krueger';}
+else if(surnom==918){surnom = 'Bernard';}
+else if(surnom==919){surnom = 'Rosario';}
+else if(surnom==920){surnom = 'Rubio';}
+else if(surnom==921){surnom = 'Mullen';}
+else if(surnom==922){surnom = 'Benjamin';}
+else if(surnom==923){surnom = 'Haley';}
+else if(surnom==924){surnom = 'Chung';}
+else if(surnom==925){surnom = 'Moyer';}
+else if(surnom==926){surnom = 'Choi';}
+else if(surnom==927){surnom = 'Horne';}
+else if(surnom==928){surnom = 'Yu';}
+else if(surnom==929){surnom = 'Woodward';}
+else if(surnom==930){surnom = 'Ali';}
+else if(surnom==931){surnom = 'Nixon';}
+else if(surnom==932){surnom = 'Hayden';}
+else if(surnom==933){surnom = 'Rivers';}
+else if(surnom==934){surnom = 'Estes';}
+else if(surnom==935){surnom = 'Mccarty';}
+else if(surnom==936){surnom = 'Richmond';}
+else if(surnom==937){surnom = 'Stuart';}
+else if(surnom==938){surnom = 'Maynard';}
+else if(surnom==939){surnom = 'Brandt';}
+else if(surnom==940){surnom = 'Oconnell';}
+else if(surnom==941){surnom = 'Hanna';}
+else if(surnom==942){surnom = 'Sanford';}
+else if(surnom==943){surnom = 'Sheppard';}
+else if(surnom==944){surnom = 'Church';}
+else if(surnom==945){surnom = 'Burch';}
+else if(surnom==946){surnom = 'Levy';}
+else if(surnom==947){surnom = 'Rasmussen';}
+else if(surnom==948){surnom = 'Coffey';}
+else if(surnom==949){surnom = 'Ponce';}
+else if(surnom==950){surnom = 'Faulkner';}
+else if(surnom==951){surnom = 'Donaldson';}
+else if(surnom==952){surnom = 'Schmitt';}
+else if(surnom==953){surnom = 'Novak';}
+else if(surnom==954){surnom = 'Costa';}
+else if(surnom==955){surnom = 'Montes';}
+else if(surnom==956){surnom = 'Booker';}
+else if(surnom==957){surnom = 'Cordova';}
+else if(surnom==958){surnom = 'Waller';}
+else if(surnom==959){surnom = 'Arellano';}
+else if(surnom==960){surnom = 'Maddox';}
+else if(surnom==961){surnom = 'Mata';}
+else if(surnom==962){surnom = 'Bonilla';}
+else if(surnom==963){surnom = 'Stanton';}
+else if(surnom==964){surnom = 'Compton';}
+else if(surnom==965){surnom = 'Kaufman';}
+else if(surnom==966){surnom = 'Dudley';}
+else if(surnom==967){surnom = 'Mcpherson';}
+else if(surnom==968){surnom = 'Beltran';}
+else if(surnom==969){surnom = 'Dickson';}
+else if(surnom==970){surnom = 'Mccann';}
+else if(surnom==971){surnom = 'Villegas';}
+else if(surnom==972){surnom = 'Proctor';}
+else if(surnom==973){surnom = 'Hester';}
+else if(surnom==974){surnom = 'Cantrell';}
+else if(surnom==975){surnom = 'Daugherty';}
+else if(surnom==976){surnom = 'Cherry';}
+else if(surnom==977){surnom = 'Bray';}
+else if(surnom==978){surnom = 'Davila';}
+else if(surnom==979){surnom = 'Rowland';}
+else if(surnom==980){surnom = 'Levine';}
+else if(surnom==981){surnom = 'Madden';}
+else if(surnom==982){surnom = 'Spence';}
+else if(surnom==983){surnom = 'Good';}
+else if(surnom==984){surnom = 'Irwin';}
+else if(surnom==985){surnom = 'Werner';}
+else if(surnom==986){surnom = 'Krause';}
+else if(surnom==987){surnom = 'Petty';}
+else if(surnom==988){surnom = 'Whitney';}
+else if(surnom==989){surnom = 'Baird';}
+else if(surnom==990){surnom = 'Hooper';}
+else if(surnom==991){surnom = 'Pollard';}
+else if(surnom==992){surnom = 'Zavala';}
+else if(surnom==993){surnom = 'Jarvis';}
+else if(surnom==994){surnom = 'Holden';}
+else if(surnom==995){surnom = 'Haas';}
+else if(surnom==996){surnom = 'Hendrix';}
+else if(surnom==997){surnom = 'Mcgrath';}
+else if(surnom==998){surnom = 'Bird';}
+else if(surnom==999){surnom = 'Lucero';}
+else if(surnom==1000){surnom = 'Terrell';}
+else if(surnom==1001){surnom = 'Riggs';}
+else if(surnom==1002){surnom = 'Joyce';}
+else if(surnom==1003){surnom = 'Mercer';}
+else if(surnom==1004){surnom = 'Rollins';}
+else if(surnom==1005){surnom = 'Galloway';}
+else if(surnom==1006){surnom = 'Duke';}
+else if(surnom==1007){surnom = 'Odom';}
+else if(surnom==1008){surnom = 'Andersen';}
+else if(surnom==1009){surnom = 'Downs';}
+else if(surnom==1010){surnom = 'Hatfield';}
+else if(surnom==1011){surnom = 'Benitez';}
+else if(surnom==1012){surnom = 'Archer';}
+else if(surnom==1013){surnom = 'Huerta';}
+else if(surnom==1014){surnom = 'Travis';}
+else if(surnom==1015){surnom = 'Mcneil';}
+else if(surnom==1016){surnom = 'Hinton';}
+else if(surnom==1017){surnom = 'Zhang';}
+else if(surnom==1018){surnom = 'Hays';}
+else if(surnom==1019){surnom = 'Mayo';}
+else if(surnom==1020){surnom = 'Fritz';}
+else if(surnom==1021){surnom = 'Branch';}
+else if(surnom==1022){surnom = 'Mooney';}
+else if(surnom==1023){surnom = 'Ewing';}
+else if(surnom==1024){surnom = 'Ritter';}
+else if(surnom==1025){surnom = 'Esparza';}
+else if(surnom==1026){surnom = 'Frey';}
+else if(surnom==1027){surnom = 'Braun';}
+else if(surnom==1028){surnom = 'Gay';}
+else if(surnom==1029){surnom = 'Riddle';}
+else if(surnom==1030){surnom = 'Haney';}
+else if(surnom==1031){surnom = 'Kaiser';}
+else if(surnom==1032){surnom = 'Holder';}
+else if(surnom==1033){surnom = 'Chaney';}
+else if(surnom==1034){surnom = 'Mcknight';}
+else if(surnom==1035){surnom = 'Gamble';}
+else if(surnom==1036){surnom = 'Vang';}
+else if(surnom==1037){surnom = 'Cooley';}
+else if(surnom==1038){surnom = 'Carney';}
+else if(surnom==1039){surnom = 'Cowan';}
+else if(surnom==1040){surnom = 'Forbes';}
+else if(surnom==1041){surnom = 'Ferrell';}
+else if(surnom==1042){surnom = 'Davies';}
+else if(surnom==1043){surnom = 'Barajas';}
+else if(surnom==1044){surnom = 'Shea';}
+else if(surnom==1045){surnom = 'Osborn';}
+else if(surnom==1046){surnom = 'Bright';}
+else if(surnom==1047){surnom = 'Cuevas';}
+else if(surnom==1048){surnom = 'Bolton';}
+else if(surnom==1049){surnom = 'Murillo';}
+else if(surnom==1050){surnom = 'Lutz';}
+else if(surnom==1051){surnom = 'Duarte';}
+else if(surnom==1052){surnom = 'Kidd';}
+else if(surnom==1053){surnom = 'Key';}
+else if(surnom==1054){surnom = 'Cooke';}
+				else {return "Generic Manor";}
+
+				var greenNameStructure = getRandomInt(1,16);
+				if(greenNameStructure==1){return ("The "+genGreenName()+"").replace("The The","The ");}
+				else if(greenNameStructure==2){return (nom+" "+surnom+" Estates").replace("The The","The ");}
+				else if(greenNameStructure==3){return (genRoadPrefix()+" Hall").replace("The The","The ");}
+				else if(greenNameStructure==4){return ("The "+nom+" "+genGreenNoun()+" Building").replace("The The","The ");}
+				else if(greenNameStructure==5){return (genRoadPrefix()+" Apartments").replace("The The","The ");}
+				else if(greenNameStructure==6){return (surnom+"-"+nom+" Place").replace("The The","The ");}
+				else if(greenNameStructure==7){return (getRandomInt(1,400).toString()+" "+genRoadPrefix()).replace("The The","The ");}
+				else if(greenNameStructure==8){return (getRandomInt(1,999).toString()+" "+surnom).replace("The The","The ");}
+				else if(greenNameStructure==9){return ("The "+surnom+" House").replace("The The","The ");}
+				else if(greenNameStructure==9){return (nom+" Gardens").replace("The The","The ");}
+				else if(greenNameStructure==10){return ("The "+genRoadPrefix()+" Building").replace("The The","The ");}
+				else if(greenNameStructure==11){return (genRoadPrefix()).replace("The The","The ");}
+				else if(greenNameStructure==12){return (genRoadPrefix()+" Housing").replace("The The","The ");}
+				else if(greenNameStructure==13){return (genRoadPrefix()+" Place").replace("The The","The ");}
+				else if(greenNameStructure==14){return (genGreenNoun()+" "+genRoadPrefix()).replace("The The","The ");}
+				else if(greenNameStructure==15){return ("The "+genRoadPrefix()).replace("The The","The ");}
+			
+				
+			}
+
+			function genBlueName(){
+				return genRoadPrefix()+" ";
+			}
+
+			function genYellowName(){
+				return genRoadPrefix()+" ";
+			}
+
+			function genOrangeName(){
+
+				return genGreenNoun()+" ";
+			}
+
+			function genDarkGreenName(){
+				return genGreenNoun()+" Park";
+			}
+
+			function genBrownName(){
+				return genRoadPrefix()+" Farm";
+			}
+
+			function genRedName(){
+				return genGreenNoun()+" and "+genRoadPrefix()+"";
+			}
+
+			function genPurpleName(){
+				return genRoadPrefix()+" ";
+			}
+			function genRoadName(){
+				return genRoadPrefix() + " " + genRoadSuffix();
+			}
+			function genRoadPrefix(){
+				var roadnom = getRandomInt(1,543);
+				if(roadnom==1){roadnom = "Carved Stone";}
+				else if(roadnom==2){roadnom = "Alderleaf";}
+				else if(roadnom==3){roadnom = 'Sohap';}
+else if(roadnom==4){roadnom = 'Billow';}
+else if(roadnom==5){roadnom = 'Seedling';}
+else if(roadnom==6){roadnom = 'Committment';}
+else if(roadnom==7){roadnom = 'Many Days';}
+else if(roadnom==8){roadnom = 'Young Sea';}
+else if(roadnom==9){roadnom = 'Charles Edward';}
+else if(roadnom==10){roadnom = 'Knighthood';}
+else if(roadnom==11){roadnom = 'The Bowl';}
+else if(roadnom==12){roadnom = 'Copper Sky';}
+else if(roadnom==13){roadnom = 'Early Red';}
+else if(roadnom==14){roadnom = 'Little Foxes Run';}
+else if(roadnom==15){roadnom = 'Lambskin';}
+else if(roadnom==16){roadnom = 'Dasher';}
+else if(roadnom==17){roadnom = 'Dasher Farm';}
+else if(roadnom==18){roadnom = 'Blade Green';}
+else if(roadnom==19){roadnom = 'Tide Rock';}
+else if(roadnom==20){roadnom = 'Enberend';}
+else if(roadnom==21){roadnom = 'Graywing';}
+else if(roadnom==22){roadnom = 'Cloudleap';}
+else if(roadnom==23){roadnom = 'Tidesebb';}
+else if(roadnom==24){roadnom = 'Star Path';}
+else if(roadnom==25){roadnom = 'Lorig';}
+else if(roadnom==26){roadnom = 'Old Columbia';}
+else if(roadnom==27){roadnom = 'Hickory Log';}
+else if(roadnom==28){roadnom = 'Humblebee';}
+else if(roadnom==29){roadnom = 'Rollright';}
+else if(roadnom==30){roadnom = 'Wild Swan';}
+else if(roadnom==31){roadnom = 'Youngsea';}
+else if(roadnom==32){roadnom = 'Catchfly';}
+else if(roadnom==33){roadnom = 'Kind Rain';}
+else if(roadnom==34){roadnom = 'Basket Ring';}
+else if(roadnom==35){roadnom = 'Crowflock';}
+else if(roadnom==36){roadnom = 'Deerpasture';}
+else if(roadnom==37){roadnom = 'Hayledge';}
+else if(roadnom==38){roadnom = 'Catfeet';}
+else if(roadnom==39){roadnom = 'Spelling Bee';}
+else if(roadnom==40){roadnom = 'Enberend';}
+else if(roadnom==41){roadnom = 'Wild Wing';}
+else if(roadnom==42){roadnom = 'Landbreeze';}
+else if(roadnom==43){roadnom = 'Morning Calm';}
+else if(roadnom==44){roadnom = 'Ina';}
+else if(roadnom==45){roadnom = 'Dark Hawk';}
+else if(roadnom==46){roadnom = 'Bluecoat';}
+else if(roadnom==47){roadnom = 'Sage Brush';}
+else if(roadnom==48){roadnom = 'Morning Calm';}
+else if(roadnom==49){roadnom = 'Starburn Path';}
+else if(roadnom==50){roadnom = 'Feathered Head';}
+else if(roadnom==51){roadnom = 'Nelson';}
+else if(roadnom==52){roadnom = 'Phelps Luck';}
+else if(roadnom==53){roadnom = 'Golden Straw';}
+else if(roadnom==54){roadnom = 'Little Patuxent';}
+else if(roadnom==55){roadnom = 'Old Montgomery';}
+else if(roadnom==56){roadnom = 'Penfield';}
+else if(roadnom==57){roadnom = 'Rosinante';}
+else if(roadnom==58){roadnom = 'Penfield';}
+else if(roadnom==59){roadnom = 'Penfield';}
+else if(roadnom==60){roadnom = 'Open Meadow';}
+else if(roadnom==61){roadnom = 'Wedding Ring';}
+else if(roadnom==62){roadnom = 'Arbor Meadows';}
+else if(roadnom==63){roadnom = 'Gate Sill';}
+else if(roadnom==64){roadnom = 'Old Deep';}
+else if(roadnom==65){roadnom = 'Spiral Cut';}
+else if(roadnom==66){roadnom = 'Possum';}
+else if(roadnom==67){roadnom = 'Hayshed';}
+else if(roadnom==68){roadnom = 'Greathead';}
+else if(roadnom==69){roadnom = 'Indian Camp';}
+else if(roadnom==70){roadnom = 'Phillip Dorsey';}
+else if(roadnom==71){roadnom = 'Hickory Log';}
+else if(roadnom==72){roadnom = 'Encounter';}
+else if(roadnom==73){roadnom = 'Whiteacre';}
+else if(roadnom==74){roadnom = 'White Mane';}
+else if(roadnom==75){roadnom = 'Stanford';}
+else if(roadnom==76){roadnom = 'Greco Garth';}
+else if(roadnom==77){roadnom = 'Rhodora';}
+else if(roadnom==78){roadnom = 'Sylvan Dell';}
+else if(roadnom==79){roadnom = 'Watchlight';}
+else if(roadnom==80){roadnom = 'Scotch Pine';}
+else if(roadnom==81){roadnom = 'Carriage House';}
+else if(roadnom==82){roadnom = 'Rustling Leaf';}
+else if(roadnom==83){roadnom = 'Morningbird';}
+else if(roadnom==84){roadnom = 'Banjo';}
+else if(roadnom==85){roadnom = 'Humblebee';}
+else if(roadnom==86){roadnom = 'Spicewind';}
+else if(roadnom==87){roadnom = 'Endless Ocean';}
+else if(roadnom==88){roadnom = 'Dockside';}
+else if(roadnom==89){roadnom = 'Morning Calm';}
+else if(roadnom==90){roadnom = 'Burnt Mountain Path';}
+else if(roadnom==91){roadnom = 'Rockbridge';}
+else if(roadnom==92){roadnom = 'Indian Camp';}
+else if(roadnom==93){roadnom = 'Sewells Orchard';}
+else if(roadnom==94){roadnom = 'Golden Bell';}
+else if(roadnom==95){roadnom = 'Indian Camp';}
+else if(roadnom==96){roadnom = 'Forty Winks';}
+else if(roadnom==97){roadnom = 'Golden Straw';}
+else if(roadnom==98){roadnom = 'Sargossa';}
+else if(roadnom==99){roadnom = 'Rockcress';}
+else if(roadnom==100){roadnom = 'Orient';}
+else if(roadnom==101){roadnom = 'Deer Season Run';}
+else if(roadnom==102){roadnom = 'Tufted Moss';}
+else if(roadnom==103){roadnom = 'Cradlerock Farm';}
+else if(roadnom==104){roadnom = 'Pennacook';}
+else if(roadnom==105){roadnom = 'Brunners Run';}
+else if(roadnom==106){roadnom = 'Tauler';}
+else if(roadnom==107){roadnom = 'Stevens Forest';}
+else if(roadnom==108){roadnom = 'Camelback';}
+else if(roadnom==109){roadnom = 'Hillfall';}
+else if(roadnom==110){roadnom = 'Skyward';}
+else if(roadnom==111){roadnom = 'Jamina Downs';}
+else if(roadnom==112){roadnom = 'Talisman';}
+else if(roadnom==113){roadnom = 'Carved Stone';}
+else if(roadnom==114){roadnom = 'Gatsby Grn';}
+else if(roadnom==115){roadnom = 'Westering Sun';}
+else if(roadnom==116){roadnom = 'Hopewell';}
+else if(roadnom==117){roadnom = 'Catwing';}
+else if(roadnom==118){roadnom = 'Life Quest';}
+else if(roadnom==119){roadnom = 'Summer Cloud';}
+else if(roadnom==120){roadnom = 'Rainbow Span';}
+else if(roadnom==121){roadnom = 'Silver Arrows';}
+else if(roadnom==122){roadnom = 'Long Meadow';}
+else if(roadnom==123){roadnom = 'Bucketpost';}
+else if(roadnom==124){roadnom = 'Macomber';}
+else if(roadnom==125){roadnom = 'Tawny Bloom';}
+else if(roadnom==126){roadnom = 'Jamina Downs';}
+else if(roadnom==127){roadnom = 'Spinning Seed';}
+else if(roadnom==128){roadnom = 'Hidden Clearing';}
+else if(roadnom==129){roadnom = 'Spiral Cut';}
+else if(roadnom==130){roadnom = 'Wood Staff';}
+else if(roadnom==131){roadnom = 'Wedding Ring';}
+else if(roadnom==132){roadnom = 'Wood Stove';}
+else if(roadnom==133){roadnom = 'Titlted Stone';}
+else if(roadnom==134){roadnom = 'Ripplestir';}
+else if(roadnom==135){roadnom = 'Long Look';}
+else if(roadnom==136){roadnom = 'Long Meadow';}
+else if(roadnom==137){roadnom = 'White Peach';}
+else if(roadnom==138){roadnom = 'Summer Hollow';}
+else if(roadnom==139){roadnom = 'Wild Lilac';}
+else if(roadnom==140){roadnom = 'Loring';}
+else if(roadnom==141){roadnom = 'Wild Wing';}
+else if(roadnom==142){roadnom = 'Peace Chimes';}
+else if(roadnom==143){roadnom = 'Thunder Hill';}
+else if(roadnom==144){roadnom = 'Battler';}
+else if(roadnom==145){roadnom = 'Gay Topaz';}
+else if(roadnom==146){roadnom = 'Wildwind';}
+else if(roadnom==147){roadnom = 'Rainprint';}
+else if(roadnom==148){roadnom = 'Gayheart';}
+else if(roadnom==149){roadnom = 'Dasher';}
+else if(roadnom==150){roadnom = 'Transfer';}
+else if(roadnom==151){roadnom = 'Rising Moon';}
+else if(roadnom==152){roadnom = 'Lacelike';}
+else if(roadnom==153){roadnom = 'Torrent';}
+else if(roadnom==154){roadnom = 'Reader';}
+else if(roadnom==155){roadnom = 'Summer Rambo';}
+else if(roadnom==156){roadnom = 'Mirrorlight';}
+else if(roadnom==157){roadnom = 'Thelo Garth';}
+else if(roadnom==158){roadnom = 'Morningbird';}
+else if(roadnom==159){roadnom = 'Encounter';}
+else if(roadnom==160){roadnom = 'Barrington';}
+else if(roadnom==161){roadnom = 'Vast Rose';}
+else if(roadnom==162){roadnom = 'Long Sky';}
+else if(roadnom==163){roadnom = 'Davis';}
+else if(roadnom==164){roadnom = 'Glad Rivers';}
+else if(roadnom==165){roadnom = 'Watercress';}
+else if(roadnom==166){roadnom = 'Farewell';}
+else if(roadnom==167){roadnom = 'Sleep Soft';}
+else if(roadnom==168){roadnom = 'Folded Palm';}
+else if(roadnom==169){roadnom = 'Nelson';}
+else if(roadnom==170){roadnom = 'Pound Apple';}
+else if(roadnom==171){roadnom = 'Enquiry';}
+else if(roadnom==172){roadnom = 'Sleeping Dog';}
+else if(roadnom==173){roadnom = 'Welcome Home';}
+else if(roadnom==174){roadnom = 'Gold Sunset';}
+else if(roadnom==175){roadnom = 'Bellfall';}
+else if(roadnom==176){roadnom = 'Blitheaire Garth';}
+else if(roadnom==177){roadnom = 'Goldamber Garth';}
+else if(roadnom==178){roadnom = 'Bright Dawn';}
+else if(roadnom==179){roadnom = 'Bright Hawk';}
+else if(roadnom==180){roadnom = 'Parallel';}
+else if(roadnom==181){roadnom = 'Rocksparkle';}
+else if(roadnom==182){roadnom = 'Windysun';}
+else if(roadnom==183){roadnom = 'Woodblock';}
+else if(roadnom==184){roadnom = 'Bright Soul';}
+else if(roadnom==185){roadnom = 'Autumn Gold';}
+else if(roadnom==186){roadnom = 'Painted Rock';}
+else if(roadnom==187){roadnom = 'Golden Bell';}
+else if(roadnom==188){roadnom = 'Tunemaker';}
+else if(roadnom==189){roadnom = 'Kerry Hill';}
+else if(roadnom==190){roadnom = 'Green Mountain';}
+else if(roadnom==191){roadnom = 'Four Foot';}
+else if(roadnom==192){roadnom = 'Grimes Golden';}
+else if(roadnom==193){roadnom = 'Herbert';}
+else if(roadnom==194){roadnom = 'Summercrest';}
+else if(roadnom==195){roadnom = 'Golden Coin';}
+else if(roadnom==196){roadnom = 'Corncockle';}
+else if(roadnom==197){roadnom = 'Majors';}
+else if(roadnom==198){roadnom = 'Gales';}
+else if(roadnom==199){roadnom = 'Life Quest';}
+else if(roadnom==200){roadnom = 'African Hl';}
+else if(roadnom==201){roadnom = 'Breaking Wave';}
+else if(roadnom==202){roadnom = 'Stevens Forest';}
+else if(roadnom==203){roadnom = 'Afternoon';}
+else if(roadnom==204){roadnom = 'Harbor';}
+else if(roadnom==205){roadnom = 'Matador';}
+else if(roadnom==206){roadnom = 'Free Stone';}
+else if(roadnom==207){roadnom = 'Light Point';}
+else if(roadnom==208){roadnom = 'Five Fingers';}
+else if(roadnom==209){roadnom = 'Hopewell';}
+else if(roadnom==210){roadnom = 'Stormift';}
+else if(roadnom==211){roadnom = 'Agail';}
+else if(roadnom==212){roadnom = 'Babylon Crest';}
+else if(roadnom==213){roadnom = 'Stormift';}
+else if(roadnom==214){roadnom = 'Harvest Rise';}
+else if(roadnom==215){roadnom = 'Shining Oceans';}
+else if(roadnom==216){roadnom = 'Freedom';}
+else if(roadnom==217){roadnom = 'Merryrest';}
+else if(roadnom==218){roadnom = 'Reader';}
+else if(roadnom==219){roadnom = 'Slipper';}
+else if(roadnom==220){roadnom = 'Bellwart';}
+else if(roadnom==221){roadnom = 'Helen Dorsey';}
+else if(roadnom==222){roadnom = 'Luckpenny';}
+else if(roadnom==223){roadnom = 'Ivoryhand';}
+else if(roadnom==224){roadnom = 'Sandchain';}
+else if(roadnom==225){roadnom = 'Wingborne';}
+else if(roadnom==226){roadnom = 'Dawn Day';}
+else if(roadnom==227){roadnom = 'Footedg';}
+else if(roadnom==228){roadnom = 'Rockbridge';}
+else if(roadnom==229){roadnom = 'Bird Race';}
+else if(roadnom==230){roadnom = 'Besthold Garth';}
+else if(roadnom==231){roadnom = 'Buckskin';}
+else if(roadnom==232){roadnom = 'Pushcart';}
+else if(roadnom==233){roadnom = 'Silver Sod';}
+else if(roadnom==234){roadnom = 'Flagflower';}
+else if(roadnom==235){roadnom = 'Downdale';}
+else if(roadnom==236){roadnom = 'Campfire';}
+else if(roadnom==237){roadnom = 'Wingflash';}
+else if(roadnom==238){roadnom = 'Lightning View';}
+else if(roadnom==239){roadnom = 'Lightspun';}
+else if(roadnom==240){roadnom = 'Freelark';}
+else if(roadnom==241){roadnom = 'Whiteacre';}
+else if(roadnom==242){roadnom = 'Snowden River';}
+else if(roadnom==243){roadnom = 'Longlook';}
+else if(roadnom==244){roadnom = 'Shining Ocean';}
+else if(roadnom==245){roadnom = 'Shining Oceans';}
+else if(roadnom==246){roadnom = 'Shining Rock';}
+else if(roadnom==247){roadnom = 'Fallen Stone';}
+else if(roadnom==248){roadnom = 'Waterloo';}
+else if(roadnom==249){roadnom = 'Dawn Whistle';}
+else if(roadnom==250){roadnom = 'Deer Pasture';}
+else if(roadnom==251){roadnom = 'Dawnblush';}
+else if(roadnom==252){roadnom = 'Halflight Garth';}
+else if(roadnom==253){roadnom = 'Shinleaf';}
+else if(roadnom==254){roadnom = 'Slope Path';}
+else if(roadnom==255){roadnom = 'Loring';}
+else if(roadnom==256){roadnom = 'Cobblefield';}
+else if(roadnom==257){roadnom = 'Stevens Forest';}
+else if(roadnom==258){roadnom = 'Jacobs Latter';}
+else if(roadnom==259){roadnom = 'Stonecutter';}
+else if(roadnom==260){roadnom = 'Wild Swan';}
+else if(roadnom==261){roadnom = 'Tree Top';}
+else if(roadnom==262){roadnom = 'Meadowsweet';}
+else if(roadnom==263){roadnom = 'Pinecone';}
+else if(roadnom==264){roadnom = 'Harp String';}
+else if(roadnom==265){roadnom = 'Silver von Clownsticket';}
+else if(roadnom==266){roadnom = 'Warm Granite';}
+else if(roadnom==267){roadnom = 'Mendenhall';}
+else if(roadnom==268){roadnom = 'Barchink';}
+else if(roadnom==269){roadnom = 'Golden Sky';}
+else if(roadnom==270){roadnom = 'Antrim';}
+else if(roadnom==271){roadnom = 'Malindy';}
+else if(roadnom==272){roadnom = 'Tower Top';}
+else if(roadnom==273){roadnom = 'Flamepool';}
+else if(roadnom==274){roadnom = 'Treefrog';}
+else if(roadnom==275){roadnom = 'Early Red';}
+else if(roadnom==276){roadnom = 'Sharp Antler';}
+else if(roadnom==277){roadnom = 'Queen Maria';}
+else if(roadnom==278){roadnom = 'Allen';}
+else if(roadnom==279){roadnom = 'Brinton';}
+else if(roadnom==280){roadnom = 'Stormift';}
+else if(roadnom==281){roadnom = 'Sunset';}
+else if(roadnom==282){roadnom = 'Mallard';}
+else if(roadnom==283){roadnom = 'Cornshock';}
+else if(roadnom==284){roadnom = 'Pepple';}
+else if(roadnom==285){roadnom = 'Pepple';}
+else if(roadnom==286){roadnom = 'Tamar';}
+else if(roadnom==287){roadnom = 'Oakland Mills';}
+else if(roadnom==288){roadnom = 'Cradlerock Farm';}
+else if(roadnom==289){roadnom = 'Cradlerock';}
+else if(roadnom==290){roadnom = 'Roan Stallion';}
+else if(roadnom==291){roadnom = 'Prophecy';}
+else if(roadnom==292){roadnom = 'Osprey';}
+else if(roadnom==293){roadnom = 'Red Branch';}
+else if(roadnom==294){roadnom = 'Hayshed';}
+else if(roadnom==295){roadnom = 'Minstrel';}
+else if(roadnom==296){roadnom = 'Barefoot Boy';}
+else if(roadnom==297){roadnom = 'Wetbanks';}
+else if(roadnom==298){roadnom = 'Old Line';}
+else if(roadnom==299){roadnom = 'Old Line';}
+else if(roadnom==300){roadnom = 'Madrigal';}
+else if(roadnom==301){roadnom = 'Lapwing';}
+else if(roadnom==302){roadnom = 'Twin Knolls';}
+else if(roadnom==303){roadnom = 'Wood Staff';}
+else if(roadnom==304){roadnom = 'Dalton';}
+else if(roadnom==305){roadnom = 'Talisman';}
+else if(roadnom==306){roadnom = 'Dewlit';}
+else if(roadnom==307){roadnom = 'Rumsey';}
+else if(roadnom==308){roadnom = 'Setting Star';}
+else if(roadnom==309){roadnom = 'Red Cart';}
+else if(roadnom==310){roadnom = 'Majors';}
+else if(roadnom==311){roadnom = 'River Meadows';}
+else if(roadnom==312){roadnom = 'Greenblade Garth';}
+else if(roadnom==313){roadnom = 'Dried Earth';}
+else if(roadnom==314){roadnom = 'Painted Rock';}
+else if(roadnom==315){roadnom = 'Gentle Folk';}
+else if(roadnom==316){roadnom = 'Better Hours';}
+else if(roadnom==317){roadnom = 'Pigeonwing';}
+else if(roadnom==318){roadnom = 'Sea Change';}
+else if(roadnom==319){roadnom = 'Gentle';}
+else if(roadnom==320){roadnom = 'Painted Yellow Gate';}
+else if(roadnom==321){roadnom = 'Red Lake';}
+else if(roadnom==322){roadnom = 'Old Man';}
+else if(roadnom==323){roadnom = 'Maera';}
+else if(roadnom==324){roadnom = 'Kerry Hill';}
+else if(roadnom==325){roadnom = 'Wandering';}
+else if(roadnom==326){roadnom = 'Nelson';}
+else if(roadnom==327){roadnom = 'Merryrest';}
+else if(roadnom==328){roadnom = 'Perfect Hour';}
+else if(roadnom==329){roadnom = 'Waning Moon';}
+else if(roadnom==330){roadnom = 'Brothers Partnership';}
+else if(roadnom==331){roadnom = 'Thomas Williams';}
+else if(roadnom==332){roadnom = 'Wintermoss';}
+else if(roadnom==333){roadnom = 'Sea Light';}
+else if(roadnom==334){roadnom = 'Quick Fox';}
+else if(roadnom==335){roadnom = 'Mossy Brink';}
+else if(roadnom==336){roadnom = 'Broken Land';}
+else if(roadnom==337){roadnom = 'Matador';}
+else if(roadnom==338){roadnom = 'Sleepsoft';}
+else if(roadnom==339){roadnom = 'Looking Glass';}
+else if(roadnom==340){roadnom = 'Night Roost';}
+else if(roadnom==341){roadnom = 'Lookinglass';}
+else if(roadnom==342){roadnom = 'Night';}
+else if(roadnom==343){roadnom = 'Gales';}
+else if(roadnom==344){roadnom = 'Pilar';}
+else if(roadnom==345){roadnom = 'Steamerbell';}
+else if(roadnom==346){roadnom = 'Wathlight';}
+else if(roadnom==347){roadnom = 'Each Leaf';}
+else if(roadnom==348){roadnom = 'Quiet Hours';}
+else if(roadnom==349){roadnom = 'Summer Rambo';}
+else if(roadnom==350){roadnom = 'Worn Mountain';}
+else if(roadnom==351){roadnom = 'Tamar';}
+else if(roadnom==352){roadnom = 'Sea Water Path';}
+else if(roadnom==353){roadnom = 'Faraway Hills';}
+else if(roadnom==354){roadnom = 'Winter Moss';}
+else if(roadnom==355){roadnom = 'Quiet Times';}
+else if(roadnom==356){roadnom = 'Farbell';}
+else if(roadnom==357){roadnom = 'Hound Hill';}
+else if(roadnom==358){roadnom = 'Nightshade';}
+else if(roadnom==359){roadnom = 'Winter Pasture';}
+else if(roadnom==360){roadnom = 'Timesweep';}
+else if(roadnom==361){roadnom = 'Farewell';}
+else if(roadnom==362){roadnom = 'Davis';}
+else if(roadnom==363){roadnom = 'Red Haven';}
+else if(roadnom==364){roadnom = 'Robert Oliver';}
+else if(roadnom==365){roadnom = 'Lime Banks';}
+else if(roadnom==366){roadnom = 'Nest Side';}
+else if(roadnom==367){roadnom = 'Hourglass';}
+else if(roadnom==368){roadnom = 'Marsh Hawk';}
+else if(roadnom==369){roadnom = 'Winter Rose Path';}
+else if(roadnom==370){roadnom = 'Rosinante Run';}
+else if(roadnom==371){roadnom = 'Bendbough';}
+else if(roadnom==372){roadnom = 'Clearsmoke';}
+else if(roadnom==373){roadnom = 'Rockcress';}
+else if(roadnom==374){roadnom = 'June Apple';}
+else if(roadnom==375){roadnom = 'Criss Cross';}
+else if(roadnom==376){roadnom = 'Springow';}
+else if(roadnom==377){roadnom = 'Quilting';}
+else if(roadnom==378){roadnom = 'Scarecrow';}
+else if(roadnom==379){roadnom = 'Chatterbird';}
+else if(roadnom==380){roadnom = 'Lark Brown';}
+else if(roadnom==381){roadnom = 'Candleshine';}
+else if(roadnom==382){roadnom = 'Bugledrum';}
+else if(roadnom==383){roadnom = 'Netherstone';}
+else if(roadnom==384){roadnom = 'Granite';}
+else if(roadnom==385){roadnom = 'Moon Glass';}
+else if(roadnom==386){roadnom = 'Diamondback';}
+else if(roadnom==387){roadnom = 'Woven Moonbeam';}
+else if(roadnom==388){roadnom = 'Nettlebed';}
+else if(roadnom==389){roadnom = 'Red Lake';}
+else if(roadnom==390){roadnom = 'Clearsmoke';}
+else if(roadnom==391){roadnom = 'Scarlet Petal';}
+else if(roadnom==392){roadnom = 'Merryrest';}
+else if(roadnom==393){roadnom = 'Brett';}
+else if(roadnom==394){roadnom = 'Oaken Door';}
+else if(roadnom==395){roadnom = 'Swan Point';}
+else if(roadnom==396){roadnom = 'Sewells Orchard';}
+else if(roadnom==397){roadnom = 'Wintercorn';}
+else if(roadnom==398){roadnom = 'Wheatsheaf';}
+else if(roadnom==399){roadnom = 'Golden Bell';}
+else if(roadnom==400){roadnom = 'Winterfield';}
+else if(roadnom==401){roadnom = 'Farm Pond';}
+else if(roadnom==402){roadnom = 'Twenty Year Chase';}
+else if(roadnom==403){roadnom = 'Loring';}
+else if(roadnom==404){roadnom = 'Flicker';}
+else if(roadnom==405){roadnom = 'Flight Feather';}
+else if(roadnom==406){roadnom = 'Pained Rock';}
+else if(roadnom==407){roadnom = 'Tamar';}
+else if(roadnom==408){roadnom = 'Tricross';}
+else if(roadnom==409){roadnom = 'Moonfire';}
+else if(roadnom==410){roadnom = 'Leafy Screen';}
+else if(roadnom==411){roadnom = 'Herrmann';}
+else if(roadnom==412){roadnom = 'Thorn Free';}
+else if(roadnom==413){roadnom = 'Frietchie';}
+else if(roadnom==414){roadnom = 'Tinker Round';}
+else if(roadnom==415){roadnom = 'Candy Root';}
+else if(roadnom==416){roadnom = 'Moongong';}
+else if(roadnom==417){roadnom = 'Stevens Forest';}
+else if(roadnom==418){roadnom = 'Sealed Message';}
+else if(roadnom==419){roadnom = 'Sealed Message';}
+else if(roadnom==420){roadnom = 'Sinbad';}
+else if(roadnom==421){roadnom = 'Smokehouse';}
+else if(roadnom==422){roadnom = 'May Day';}
+else if(roadnom==423){roadnom = 'Waiting Spg';}
+else if(roadnom==424){roadnom = 'Warm Granite';}
+else if(roadnom==425){roadnom = 'Tinted';}
+else if(roadnom==426){roadnom = 'Black Cherry';}
+else if(roadnom==427){roadnom = 'Good Hunters Ride';}
+else if(roadnom==428){roadnom = 'Good Lion';}
+else if(roadnom==429){roadnom = 'Elffolk';}
+else if(roadnom==430){roadnom = 'Sheerock';}
+else if(roadnom==431){roadnom = 'Warm Waves';}
+else if(roadnom==432){roadnom = 'Warmstone';}
+else if(roadnom==433){roadnom = 'Warmstone';}
+else if(roadnom==434){roadnom = 'Waveland';}
+else if(roadnom==435){roadnom = 'Lark Brown';}
+else if(roadnom==436){roadnom = 'Tamar';}
+else if(roadnom==437){roadnom = 'Seapearl';}
+else if(roadnom==438){roadnom = 'Flintfeet';}
+else if(roadnom==439){roadnom = '5 Fingers';}
+else if(roadnom==440){roadnom = 'Wind Dance';}
+else if(roadnom==441){roadnom = 'Ourtime';}
+else if(roadnom==442){roadnom = 'Blue Dart';}
+else if(roadnom==443){roadnom = 'Commitment';}
+else if(roadnom==444){roadnom = 'Wind Rider';}
+else if(roadnom==445){roadnom = 'Opal Chain';}
+else if(roadnom==446){roadnom = 'Bullring';}
+else if(roadnom==447){roadnom = 'Curtis';}
+else if(roadnom==448){roadnom = 'Stag Horn Path';}
+else if(roadnom==449){roadnom = 'Pastora';}
+else if(roadnom==450){roadnom = 'Smooth Path';}
+else if(roadnom==451){roadnom = '40 Winks';}
+else if(roadnom==452){roadnom = 'Old Dobbin';}
+else if(roadnom==453){roadnom = 'Welcome Home';}
+else if(roadnom==454){roadnom = 'Yellow Dawn';}
+else if(roadnom==455){roadnom = 'Windbell';}
+else if(roadnom==456){roadnom = 'Tamebird';}
+else if(roadnom==457){roadnom = 'Pine Bark';}
+else if(roadnom==458){roadnom = 'Swan Point';}
+else if(roadnom==459){roadnom = 'Oakland Mills';}
+else if(roadnom==460){roadnom = 'Coltsfoot';}
+else if(roadnom==461){roadnom = 'Foxcroft';}
+else if(roadnom==462){roadnom = 'Foxcroft';}
+else if(roadnom==463){roadnom = 'Sweet Clover';}
+else if(roadnom==464){roadnom = 'Stone Cloud';}
+else if(roadnom==465){roadnom = 'Open Flower';}
+else if(roadnom==466){roadnom = 'Sweet Fern';}
+else if(roadnom==467){roadnom = 'Cobbler';}
+else if(roadnom==468){roadnom = 'Crazyquilt';}
+else if(roadnom==469){roadnom = 'Morningbird';}
+else if(roadnom==470){roadnom = 'Open Meadow';}
+else if(roadnom==471){roadnom = 'Delphinium';}
+else if(roadnom==472){roadnom = 'Curtsey';}
+else if(roadnom==473){roadnom = 'Patchin';}
+else if(roadnom==474){roadnom = 'Twelvemonth';}
+else if(roadnom==475){roadnom = 'Shadowfall';}
+else if(roadnom==476){roadnom = 'Yellowrose';}
+else if(roadnom==477){roadnom = 'Twenty Year Chase';}
+else if(roadnom==478){roadnom = 'Leafy Screen';}
+else if(roadnom==479){roadnom = 'Millrace';}
+else if(roadnom==480){roadnom = 'Highwind';}
+else if(roadnom==481){roadnom = 'Loring';}
+else if(roadnom==482){roadnom = 'Browsing Deer';}
+else if(roadnom==483){roadnom = 'Bellwart';}
+else if(roadnom==484){roadnom = 'Riverark';}
+else if(roadnom==485){roadnom = 'Homespun';}
+else if(roadnom==486){roadnom = 'Log Chain';}
+else if(roadnom==487){roadnom = 'New Grange Garth';}
+else if(roadnom==488){roadnom = 'Mellen';}
+else if(roadnom==489){roadnom = 'Goose Landing';}
+else if(roadnom==490){roadnom = 'Mellenbrook';}
+else if(roadnom==491){roadnom = 'Seawind';}
+else if(roadnom==492){roadnom = 'Overheart';}
+else if(roadnom==493){roadnom = 'Stairtop';}
+else if(roadnom==494){roadnom = 'Sage Brush';}
+else if(roadnom==495){roadnom = 'Castile';}
+else if(roadnom==496){roadnom = 'Harp String';}
+else if(roadnom==497){roadnom = 'Wishing Bridge';}
+else if(roadnom==498){roadnom = 'Grape Wine';}
+else if(roadnom==499){roadnom = 'Helaine Hamlet';}
+else if(roadnom==500){roadnom = 'Short Wheel';}
+else if(roadnom==501){roadnom = 'Gales';}
+else if(roadnom==502){roadnom = 'Black Star';}
+else if(roadnom==503){roadnom = 'Drowsy Day';}
+else if(roadnom==504){roadnom = 'Tamar';}
+else if(roadnom==505){roadnom = 'Pressed Gentian';}
+else if(roadnom==506){roadnom = 'Eaglebeak';}
+else if(roadnom==507){roadnom = 'Cobblefield';}
+else if(roadnom==508){roadnom = 'Adalee';}
+else if(roadnom==509){roadnom = 'Rustling Leaf';}
+else if(roadnom==510){roadnom = 'Grapewine';}
+else if(roadnom==511){roadnom = 'Upwoods';}
+else if(roadnom==512){roadnom = 'Raccoon';}
+else if(roadnom==513){roadnom = 'Angelina';}
+else if(roadnom==514){roadnom = 'Deerpasture';}
+else if(roadnom==515){roadnom = 'Shadowfall Terrace';}
+else if(roadnom==516){roadnom = 'Spindrift';}
+else if(roadnom==517){roadnom = 'Helen Dorsey';}
+else if(roadnom==518){roadnom = 'Dobbin';}
+else if(roadnom==519){roadnom = 'Happyheart';}
+else if(roadnom==520){roadnom = 'Millrace';}
+else if(roadnom==521){roadnom = 'Pigeonwing';}
+else if(roadnom==522){roadnom = 'Robin Song';}
+else if(roadnom==523){roadnom = 'Windharp';}
+else if(roadnom==524){roadnom = 'Goldenstraw';}
+else if(roadnom==525){roadnom = 'Old Columbia';}
+else if(roadnom==526){roadnom = 'Waterloo';}
+else if(roadnom==527){roadnom = 'Roundtree';}
+else if(roadnom==528){roadnom = 'Barrington';}
+else if(roadnom==529){roadnom = 'Harpers Farm';}
+else if(roadnom==530){roadnom = 'Deep Earth';}
+else if(roadnom==531){roadnom = 'Charles Edward';}
+else if(roadnom==532){roadnom = 'Open Meadow';}
+else if(roadnom==533){roadnom = 'Oak Bush';}
+else if(roadnom==534){roadnom = 'Raritan';}
+else if(roadnom==535){roadnom = 'Deer Pasture';}
+else if(roadnom==536){roadnom = 'Better Holes';}
+else if(roadnom==537){roadnom = 'Better Hours';}
+else if(roadnom==538){roadnom = 'Three Apple Downs';}
+else if(roadnom==539){roadnom = 'April Wind';}
+else if(roadnom==540){roadnom = 'Hobnail';}
+else if(roadnom==541){roadnom = 'Farstar';}
+else if(roadnom==542){roadnom = 'Kilimanjaro';}
+else if(roadnom==543){roadnom = 'Coonhunt';}
+			
+			return roadnom;
+		}
+
+
+			function genRoadSuffix(){
+				var roadsuffix = getRandomInt(1,8);
+				if(roadsuffix==1) return "Rd.";
+				else if (roadsuffix==2) return "Dr.";
+				else if (roadsuffix==3) return "Ct.";
+				else if (roadsuffix==4) return "Ln.";
+				else if (roadsuffix==5) return "Way";
+				else if (roadsuffix==6) return "St.";
+				else if (roadsuffix==7) return "Cir.";
+				else if (roadsuffix==8) return "Ave.";
+
+				return "Error";
+			}
+
+			function genGreenNoun(){
+				var greenNoun = getRandomInt(1,85);
+				if(greenNoun==1) return "Pendant";
+				else if (greenNoun==2) return "Foliage";
+				else if (greenNoun==3) return "Hearth";
+				else if (greenNoun==4) return "Stump";
+				else if (greenNoun==5) return "Owl";
+				else if (greenNoun==6) return "Embrace";
+				else if (greenNoun==7) return "Sailboat";
+				else if (greenNoun==8) return "Pear";
+				else if (greenNoun==9) return "Stitching";
+				else if (greenNoun==10) return "Porch";
+				else if (greenNoun==11) return "Trail";
+				else if (greenNoun==12) return "Rustling";
+				else if (greenNoun==13) return "Umbrella";
+				else if (greenNoun==14) return "Scarecrow";
+				else if (greenNoun==15) return "Oatmeal";
+				else if (greenNoun==16) return "Potato";
+				else if (greenNoun==17) return "Sailboat";
+				else if (greenNoun==18) return "Ember";
+				else if (greenNoun==19) return "Caboose";
+				else if (greenNoun==20) return "Spinach";
+				else if (greenNoun==21) return "Pumpkin Seed";
+				else if (greenNoun==22) return "Onomatopoeia";
+				else if (greenNoun==23) return "Impression";
+				else if (greenNoun==24) return "Reflection";
+				else if (greenNoun==25) return "Comfort";
+				else if (greenNoun==26) return "Brick";
+				else if (greenNoun==27) return "Steam";
+				else if (greenNoun==28) return "Woodblock";
+				else if (greenNoun==29) return "Claves";
+				else if (greenNoun==30) return "Guiro";
+				else if (greenNoun==31) return "Cello";
+				else if (greenNoun==32) return "Giraffe";
+				else if (greenNoun==33) return "Llama";
+				else if (greenNoun==34) return "Furnace";
+				else if (greenNoun==35) return "Fern";
+				else if (greenNoun==36) return "Aloe";
+				else if (greenNoun==37) return "Constellation";
+				else if (greenNoun==38) return "Troglodyte";
+				else if (greenNoun==39) return "Spline";
+				else if (greenNoun==40) return "Tetrahedron";
+				else if (greenNoun==41) return "Buffalo";
+				else if (greenNoun==42) return "Cheddar";
+				else if (greenNoun==43) return "Grandfather Clock";
+				else if (greenNoun==44) return "Kilt";
+				else if (greenNoun==45) return "Fire Pit";
+				else if (greenNoun==46) return "Kale";
+				else if (greenNoun==47) return "Perk";
+				else if (greenNoun==48) return "Peafowl";
+				else if (greenNoun==49) return "Sisterhood";
+				else if (greenNoun==50) return "Solidarity";
+				else if (greenNoun==51) return "Equity";
+				else if (greenNoun==52) return "Union";
+				else if (greenNoun==53) return "Friendship";
+				else if (greenNoun==54) return "Justice";
+				else if (greenNoun==55) return "Chimney";
+				else if (greenNoun==56) return "Solar Wind";
+				else if (greenNoun==57) return "Moonlight";
+				else if (greenNoun==58) return "Dragonfly";
+				else if (greenNoun==59) return "Firefly";
+				else if (greenNoun==60) return "Ladybug";
+				else if (greenNoun==61) return "Coffee";
+				else if (greenNoun==62) return "Espresso";
+				else if (greenNoun==63) return "Sea Shanty";
+				else if (greenNoun==64) return "Orange";
+				else if (greenNoun==65) return "Passionfruit";
+				else if (greenNoun==66) return "Sherbet";
+				else if (greenNoun==67) return "Whiskey";
+				else if (greenNoun==68) return "Thicket";
+				else if (greenNoun==69) return "Steepest Hill in the Whole Wide World";
+				else if (greenNoun==70) return "Dromedary";
+				else if (greenNoun==71) return "Rainbow Sherbet";
+				else if (greenNoun==72) return "Penguin";
+				else if (greenNoun==73) return "Joy";
+				else if (greenNoun==74) return "Fibonacci";
+				else if (greenNoun==75) return "Zucchini";
+				else if (greenNoun==76) return "Turtle";
+				else if (greenNoun==77) return "Pomplamoose";
+				else if (greenNoun==78) return "Fluff";
+				else if (greenNoun==79) return "Poolhouse";
+				else if (greenNoun==80) return "Yo-Yo";
+				else if (greenNoun==81) return "Lettuce";
+				else if (greenNoun==82) return "Rose";
+				else if (greenNoun==83) return "Plough";
+				else if (greenNoun==84) return "Zephyr";
+				else if (greenNoun==85) return "Magic";
+				else if (greenNoun==86) return "Duck Soup";
+				else if (greenNoun==87) return "Field Day";
+				else if (greenNoun==88) return "Sashay";
+				else if (greenNoun==89) return "Jaunt";
+				else if (greenNoun==90) return "Junket";
+				else if (greenNoun==81) return "Plush";
+				else if (greenNoun==82) return "Repose";
+				else if (greenNoun==83) return "Serenity";
+				else if (greenNoun==84) return "Ataraxis";
+				
+			}
+			
+		</script>
+		<script>
+
+		</script>
+	
+	</body>
+</html>
